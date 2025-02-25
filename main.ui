@@ -1015,7 +1015,7 @@ font-weight:500;</string>
             <item>
              <widget class="QStackedWidget" name="stackedWidget_2">
               <property name="currentIndex">
-               <number>1</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="page_4">
                <layout class="QHBoxLayout" name="horizontalLayout_14">
