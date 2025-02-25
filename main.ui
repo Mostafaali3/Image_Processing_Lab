@@ -152,22 +152,12 @@ border-radius: 10px;</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_4">
                  <item>
-                  <spacer name="verticalSpacer_3">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
                   <layout class="QVBoxLayout" name="verticalLayout_10">
                    <property name="leftMargin">
                     <number>5</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>20</number>
                    </property>
                    <property name="rightMargin">
                     <number>5</number>
@@ -236,6 +226,19 @@ font-weight:500;</string>
                     </widget>
                    </item>
                   </layout>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_7">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -441,6 +444,19 @@ QComboBox::down-arrow {
                   </layout>
                  </item>
                  <item>
+                  <spacer name="verticalSpacer_6">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_9">
                    <property name="leftMargin">
                     <number>5</number>
@@ -548,6 +564,19 @@ QComboBox::down-arrow {
                     </widget>
                    </item>
                   </layout>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_3">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -876,6 +905,16 @@ font-weight:500;</string>
                </widget>
               </item>
               <item>
+               <widget class="QWidget" name="widget_25" native="true">
+                <property name="maximumSize">
+                 <size>
+                  <width>50</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
                <layout class="QHBoxLayout" name="horizontalLayout_6">
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -883,40 +922,73 @@ font-weight:500;</string>
                    <number>5</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="label_11">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>30</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">
+                   <layout class="QVBoxLayout" name="verticalLayout_13">
+                    <item>
+                     <widget class="QWidget" name="widget_7" native="true">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_11">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">
 color:#edf6f9;
 font-size: 16px;
 font-weight:500;
 border:none;</string>
-                    </property>
-                    <property name="text">
-                     <string>Input:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <layout class="QVBoxLayout" name="input"/>
-                  </item>
-                  <item>
-                   <spacer name="verticalSpacer_4">
-                    <property name="orientation">
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>20</width>
-                      <height>40</height>
-                     </size>
-                    </property>
-                   </spacer>
+                      </property>
+                      <property name="text">
+                       <string>Input:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QWidget" name="widget_3" native="true">
+                      <property name="minimumSize">
+                       <size>
+                        <width>500</width>
+                        <height>500</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>700</width>
+                        <height>700</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_21">
+                       <item>
+                        <layout class="QVBoxLayout" name="input"/>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QWidget" name="widget_5" native="true">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>200</height>
+                       </size>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                  </layout>
                 </item>
@@ -926,40 +998,73 @@ border:none;</string>
                    <number>5</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="label_12">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>30</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">
+                   <layout class="QVBoxLayout" name="verticalLayout_25">
+                    <item>
+                     <widget class="QWidget" name="widget_8" native="true">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_12">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">
 color:#edf6f9;
 font-size: 16px;
 font-weight:500;
 border:none;</string>
-                    </property>
-                    <property name="text">
-                     <string>Output:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <layout class="QVBoxLayout" name="output"/>
-                  </item>
-                  <item>
-                   <spacer name="verticalSpacer_5">
-                    <property name="orientation">
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>20</width>
-                      <height>40</height>
-                     </size>
-                    </property>
-                   </spacer>
+                      </property>
+                      <property name="text">
+                       <string>Output:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QWidget" name="widget_4" native="true">
+                      <property name="minimumSize">
+                       <size>
+                        <width>500</width>
+                        <height>500</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>700</width>
+                        <height>700</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_28">
+                       <item>
+                        <layout class="QVBoxLayout" name="output"/>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QWidget" name="widget_6" native="true">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>200</height>
+                       </size>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                  </layout>
                 </item>
@@ -987,7 +1092,7 @@ font-weight:500;</string>
                 </property>
                 <property name="icon">
                  <iconset>
-                  <normaloff>Deliverables/arrow.png</normaloff>Deliverables/arrow.png</iconset>
+                  <normaloff>icons_setup/icons/arrow.png</normaloff>icons_setup/icons/arrow.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -1015,7 +1120,7 @@ font-weight:500;</string>
             <item>
              <widget class="QStackedWidget" name="stackedWidget_2">
               <property name="currentIndex">
-               <number>1</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="page_4">
                <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -1044,7 +1149,27 @@ border:none;</string>
                      </widget>
                     </item>
                     <item>
-                     <layout class="QVBoxLayout" name="green_histogram"/>
+                     <layout class="QVBoxLayout" name="verticalLayout_42">
+                      <item>
+                       <widget class="QWidget" name="widget_13" native="true">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>300</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                        </property>
+                        <layout class="QVBoxLayout" name="verticalLayout_44">
+                         <item>
+                          <layout class="QVBoxLayout" name="green_histogram"/>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                    </layout>
                   </item>
@@ -1071,7 +1196,27 @@ border:none;</string>
                      </widget>
                     </item>
                     <item>
-                     <layout class="QVBoxLayout" name="red_histogram"/>
+                     <layout class="QVBoxLayout" name="verticalLayout_35">
+                      <item>
+                       <widget class="QWidget" name="widget_12" native="true">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>300</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                        </property>
+                        <layout class="QVBoxLayout" name="verticalLayout_36">
+                         <item>
+                          <layout class="QVBoxLayout" name="red_histogram"/>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                    </layout>
                   </item>
@@ -1098,7 +1243,27 @@ border:none;</string>
                      </widget>
                     </item>
                     <item>
-                     <layout class="QVBoxLayout" name="blue_histogram"/>
+                     <layout class="QVBoxLayout" name="verticalLayout_45">
+                      <item>
+                       <widget class="QWidget" name="widget_14" native="true">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>300</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                        </property>
+                        <layout class="QVBoxLayout" name="verticalLayout_46">
+                         <item>
+                          <layout class="QVBoxLayout" name="blue_histogram"/>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                    </layout>
                   </item>
@@ -1125,7 +1290,21 @@ border:none;</string>
                      </widget>
                     </item>
                     <item>
-                     <layout class="QVBoxLayout" name="blue_cdf"/>
+                     <layout class="QVBoxLayout" name="verticalLayout_51">
+                      <item>
+                       <widget class="QWidget" name="widget_20" native="true">
+                        <property name="styleSheet">
+                         <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                        </property>
+                        <layout class="QVBoxLayout" name="verticalLayout_52">
+                         <item>
+                          <layout class="QVBoxLayout" name="blue_cdf"/>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                    </layout>
                   </item>
@@ -1152,7 +1331,27 @@ border:none;</string>
                      </widget>
                     </item>
                     <item>
-                     <layout class="QVBoxLayout" name="red_cdf"/>
+                     <layout class="QVBoxLayout" name="verticalLayout_47">
+                      <item>
+                       <widget class="QWidget" name="widget_15" native="true">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>300</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                        </property>
+                        <layout class="QVBoxLayout" name="verticalLayout_48">
+                         <item>
+                          <layout class="QVBoxLayout" name="red_cdf"/>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                    </layout>
                   </item>
@@ -1179,7 +1378,21 @@ border:none;</string>
                      </widget>
                     </item>
                     <item>
-                     <layout class="QVBoxLayout" name="green_cdf"/>
+                     <layout class="QVBoxLayout" name="verticalLayout_49">
+                      <item>
+                       <widget class="QWidget" name="widget_16" native="true">
+                        <property name="styleSheet">
+                         <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                        </property>
+                        <layout class="QVBoxLayout" name="verticalLayout_50">
+                         <item>
+                          <layout class="QVBoxLayout" name="green_cdf"/>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                    </layout>
                   </item>
@@ -1226,13 +1439,13 @@ border:none;</string>
                         <property name="minimumSize">
                          <size>
                           <width>0</width>
-                          <height>500</height>
+                          <height>600</height>
                          </size>
                         </property>
                         <property name="maximumSize">
                          <size>
                           <width>16777215</width>
-                          <height>500</height>
+                          <height>600</height>
                          </size>
                         </property>
                         <property name="styleSheet">
@@ -1240,7 +1453,21 @@ border:none;</string>
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_14">
                          <item>
-                          <layout class="QVBoxLayout" name="gray_histogram"/>
+                          <layout class="QVBoxLayout" name="verticalLayout_29">
+                           <item>
+                            <widget class="QWidget" name="widget_10" native="true">
+                             <property name="styleSheet">
+                              <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                             </property>
+                             <layout class="QVBoxLayout" name="verticalLayout_32">
+                              <item>
+                               <layout class="QVBoxLayout" name="gray_histogram"/>
+                              </item>
+                             </layout>
+                            </widget>
+                           </item>
+                          </layout>
                          </item>
                         </layout>
                        </widget>
@@ -1278,13 +1505,13 @@ border:none;</string>
                         <property name="minimumSize">
                          <size>
                           <width>0</width>
-                          <height>500</height>
+                          <height>600</height>
                          </size>
                         </property>
                         <property name="maximumSize">
                          <size>
                           <width>16777215</width>
-                          <height>500</height>
+                          <height>600</height>
                          </size>
                         </property>
                         <property name="styleSheet">
@@ -1292,7 +1519,21 @@ border:none;</string>
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_31">
                          <item>
-                          <layout class="QVBoxLayout" name="gray_cdf"/>
+                          <layout class="QVBoxLayout" name="verticalLayout_33">
+                           <item>
+                            <widget class="QWidget" name="widget_11" native="true">
+                             <property name="styleSheet">
+                              <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                             </property>
+                             <layout class="QVBoxLayout" name="verticalLayout_34">
+                              <item>
+                               <layout class="QVBoxLayout" name="gray_cdf"/>
+                              </item>
+                             </layout>
+                            </widget>
+                           </item>
+                          </layout>
                          </item>
                         </layout>
                        </widget>
@@ -1302,19 +1543,6 @@ border:none;</string>
                    </layout>
                   </item>
                  </layout>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer_8">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
                 </item>
                </layout>
               </widget>
@@ -1329,8 +1557,41 @@ border:none;</string>
               <item row="0" column="0">
                <widget class="QWidget" name="widget_9" native="true">
                 <layout class="QGridLayout" name="gridLayout_3">
-                 <item row="4" column="0">
-                  <layout class="QVBoxLayout" name="input_2"/>
+                 <item row="3" column="0">
+                  <widget class="QWidget" name="widget_21" native="true">
+                   <property name="minimumSize">
+                    <size>
+                     <width>300</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_53">
+                    <item>
+                     <layout class="QVBoxLayout" name="input_1">
+                      <property name="bottomMargin">
+                       <number>10</number>
+                      </property>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QWidget" name="widget_23" native="true">
+                   <property name="styleSheet">
+                    <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_55">
+                    <item>
+                     <layout class="QVBoxLayout" name="input_2"/>
+                    </item>
+                   </layout>
+                  </widget>
                  </item>
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_16">
@@ -1358,198 +1619,20 @@ border:none;</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="0">
-                  <widget class="QPushButton" name="browse_1">
+                 <item row="6" column="2">
+                  <widget class="QWidget" name="widget_24" native="true">
                    <property name="styleSheet">
                     <string notr="true">background-color:#edf6f9;
-border-radius: 5px;
-color:#006d77;
-font-size: 16px;
-font-weight:500;</string>
+border-radius: 5px;</string>
                    </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset>
-                     <normaloff>icons_setup/icons/image.png</normaloff>icons_setup/icons/image.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>25</width>
-                     <height>25</height>
-                    </size>
-                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_56">
+                    <item>
+                     <layout class="QVBoxLayout" name="output_2"/>
+                    </item>
+                   </layout>
                   </widget>
                  </item>
-                 <item row="4" column="1">
-                  <layout class="QVBoxLayout" name="verticalLayout_27">
-                   <item>
-                    <widget class="QLabel" name="label_25">
-                     <property name="styleSheet">
-                      <string notr="true">
-color:#edf6f9;
-font-size: 16px;
-font-weight:500;
-border:none;</string>
-                     </property>
-                     <property name="text">
-                      <string> H</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSlider" name="pass_filter_2">
-                     <property name="styleSheet">
-                      <string notr="true">QSlider {
-    border: none;  /* Ensure no border is applied to the entire slider */
-    background: transparent;  /* Avoid unwanted background effects */
-}
-
-QSlider::groove:vertical {
-    border: none;  /* Remove the border */
-    background: #004c4f;  /* Groove color */
-    width: 5px;
-    border-radius: 1.5px;
-}
-
-QSlider::sub-page:vertical {
-    background: #edf6f9;  /* Light teal progress */
-    border: none;  /* Remove any unintended borders */
-    width: 3px;
-    border-radius: 1.5px;
-}
-
-QSlider::add-page:vertical {
-    background: #ffffff;  /* White for remaining track */
-    border: none;  /* Remove any unintended borders */
-    width: 3px;
-    border-radius: 1.5px;
-}
-
-QSlider::handle:vertical {
-    background: #edf6f9;  /* Light teal handle */
-    border: 2px solid #004c4f;  /* Dark teal border */
-    width: 10px;   /* Adjusted size */
-    height: 10px;  /* Adjusted size */
-    border-radius: 5px;  /* Keeps it rounded */
-    margin: 0 -4px;  /* Centering the handle */
-}
-
-QSlider::handle:vertical:hover {
-    background: #b0d0c4; /* Light teal-gray for hover effect */
-}
-
-QSlider::handle:vertical:pressed {
-    background: #8ca8a0; /* Slightly darker teal-gray for pressed effect */
-}
-</string>
-                     </property>
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_26">
-                     <property name="styleSheet">
-                      <string notr="true">
-color:#edf6f9;
-font-size: 16px;
-font-weight:500;
-border:none;</string>
-                     </property>
-                     <property name="text">
-                      <string> L</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="value_label_2">
-                     <property name="styleSheet">
-                      <string notr="true">
-color:#edf6f9;
-font-size: 16px;
-font-weight:500;
-border:none;</string>
-                     </property>
-                     <property name="text">
-                      <string> 0</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSlider" name="value_slider_2">
-                     <property name="styleSheet">
-                      <string notr="true">QSlider {
-    border: none;  /* Ensure no border is applied to the entire slider */
-    background: transparent;  /* Avoid unwanted background effects */
-}
-
-QSlider::groove:vertical {
-    border: none;  /* Remove the border */
-    background: #004c4f;  /* Groove color */
-    width: 5px;
-    border-radius: 1.5px;
-}
-
-QSlider::sub-page:vertical {
-    background: #edf6f9;  /* Light teal progress */
-    border: none;  /* Remove any unintended borders */
-    width: 3px;
-    border-radius: 1.5px;
-}
-
-QSlider::add-page:vertical {
-    background: #ffffff;  /* White for remaining track */
-    border: none;  /* Remove any unintended borders */
-    width: 3px;
-    border-radius: 1.5px;
-}
-
-QSlider::handle:vertical {
-    background: #edf6f9;  /* Light teal handle */
-    border: 2px solid #004c4f;  /* Dark teal border */
-    width: 10px;   /* Adjusted size */
-    height: 10px;  /* Adjusted size */
-    border-radius: 5px;  /* Keeps it rounded */
-    margin: 0 -4px;  /* Centering the handle */
-}
-
-QSlider::handle:vertical:hover {
-    background: #b0d0c4; /* Light teal-gray for hover effect */
-}
-
-QSlider::handle:vertical:pressed {
-    background: #8ca8a0; /* Slightly darker teal-gray for pressed effect */
-}
-</string>
-                     </property>
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="2" column="2">
-                  <layout class="QVBoxLayout" name="output_1">
-                   <property name="bottomMargin">
-                    <number>10</number>
-                   </property>
-                  </layout>
-                 </item>
-                 <item row="2" column="0">
-                  <layout class="QVBoxLayout" name="input_1">
-                   <property name="bottomMargin">
-                    <number>10</number>
-                   </property>
-                  </layout>
-                 </item>
-                 <item row="4" column="2">
-                  <layout class="QVBoxLayout" name="output_2"/>
-                 </item>
-                 <item row="2" column="1">
+                 <item row="3" column="1">
                   <layout class="QVBoxLayout" name="verticalLayout_26">
                    <item>
                     <widget class="QLabel" name="label_24">
@@ -1699,10 +1782,22 @@ QSlider::handle:vertical:pressed {
                    </item>
                   </layout>
                  </item>
-                 <item row="3" column="0">
+                 <item row="4" column="0">
                   <widget class="QPushButton" name="browse_2">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>40</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="styleSheet">
-                    <string notr="true">background-color:#edf6f9;
+                    <string notr="true">background-color:#006d77;
 border-radius: 5px;
 color:#006d77;
 font-size: 16px;
@@ -1713,7 +1808,216 @@ font-weight:500;</string>
                    </property>
                    <property name="icon">
                     <iconset>
-                     <normaloff>icons_setup/icons/image.png</normaloff>icons_setup/icons/image.png</iconset>
+                     <normaloff>icons_setup/icons/image-.png</normaloff>icons_setup/icons/image-.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>25</width>
+                     <height>25</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <layout class="QVBoxLayout" name="verticalLayout_27">
+                   <item>
+                    <widget class="QLabel" name="label_25">
+                     <property name="styleSheet">
+                      <string notr="true">
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;
+border:none;</string>
+                     </property>
+                     <property name="text">
+                      <string> H</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSlider" name="pass_filter_2">
+                     <property name="styleSheet">
+                      <string notr="true">QSlider {
+    border: none;  /* Ensure no border is applied to the entire slider */
+    background: transparent;  /* Avoid unwanted background effects */
+}
+
+QSlider::groove:vertical {
+    border: none;  /* Remove the border */
+    background: #004c4f;  /* Groove color */
+    width: 5px;
+    border-radius: 1.5px;
+}
+
+QSlider::sub-page:vertical {
+    background: #edf6f9;  /* Light teal progress */
+    border: none;  /* Remove any unintended borders */
+    width: 3px;
+    border-radius: 1.5px;
+}
+
+QSlider::add-page:vertical {
+    background: #ffffff;  /* White for remaining track */
+    border: none;  /* Remove any unintended borders */
+    width: 3px;
+    border-radius: 1.5px;
+}
+
+QSlider::handle:vertical {
+    background: #edf6f9;  /* Light teal handle */
+    border: 2px solid #004c4f;  /* Dark teal border */
+    width: 10px;   /* Adjusted size */
+    height: 10px;  /* Adjusted size */
+    border-radius: 5px;  /* Keeps it rounded */
+    margin: 0 -4px;  /* Centering the handle */
+}
+
+QSlider::handle:vertical:hover {
+    background: #b0d0c4; /* Light teal-gray for hover effect */
+}
+
+QSlider::handle:vertical:pressed {
+    background: #8ca8a0; /* Slightly darker teal-gray for pressed effect */
+}
+</string>
+                     </property>
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_26">
+                     <property name="styleSheet">
+                      <string notr="true">
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;
+border:none;</string>
+                     </property>
+                     <property name="text">
+                      <string> L</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="value_label_2">
+                     <property name="styleSheet">
+                      <string notr="true">
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;
+border:none;</string>
+                     </property>
+                     <property name="text">
+                      <string> 0</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSlider" name="value_slider_2">
+                     <property name="styleSheet">
+                      <string notr="true">QSlider {
+    border: none;  /* Ensure no border is applied to the entire slider */
+    background: transparent;  /* Avoid unwanted background effects */
+}
+
+QSlider::groove:vertical {
+    border: none;  /* Remove the border */
+    background: #004c4f;  /* Groove color */
+    width: 5px;
+    border-radius: 1.5px;
+}
+
+QSlider::sub-page:vertical {
+    background: #edf6f9;  /* Light teal progress */
+    border: none;  /* Remove any unintended borders */
+    width: 3px;
+    border-radius: 1.5px;
+}
+
+QSlider::add-page:vertical {
+    background: #ffffff;  /* White for remaining track */
+    border: none;  /* Remove any unintended borders */
+    width: 3px;
+    border-radius: 1.5px;
+}
+
+QSlider::handle:vertical {
+    background: #edf6f9;  /* Light teal handle */
+    border: 2px solid #004c4f;  /* Dark teal border */
+    width: 10px;   /* Adjusted size */
+    height: 10px;  /* Adjusted size */
+    border-radius: 5px;  /* Keeps it rounded */
+    margin: 0 -4px;  /* Centering the handle */
+}
+
+QSlider::handle:vertical:hover {
+    background: #b0d0c4; /* Light teal-gray for hover effect */
+}
+
+QSlider::handle:vertical:pressed {
+    background: #8ca8a0; /* Slightly darker teal-gray for pressed effect */
+}
+</string>
+                     </property>
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="3" column="2">
+                  <widget class="QWidget" name="widget_22" native="true">
+                   <property name="minimumSize">
+                    <size>
+                     <width>300</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_54">
+                    <item>
+                     <layout class="QVBoxLayout" name="output_1">
+                      <property name="bottomMargin">
+                       <number>10</number>
+                      </property>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QPushButton" name="browse_1">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>40</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color:#006d77;
+border-radius: 5px;
+color:#006d77;
+font-size: 16px;
+font-weight:500;</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>icons_setup/icons/image-.png</normaloff>icons_setup/icons/image-.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -1732,29 +2036,39 @@ font-weight:500;</string>
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_30">
+                <property name="topMargin">
+                 <number>10</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>10</number>
+                </property>
                 <item>
-                 <widget class="QWidget" name="widget_19" native="true">
-                  <layout class="QVBoxLayout" name="verticalLayout_43">
-                   <item>
-                    <widget class="QLabel" name="label_17">
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">
+                 <widget class="QLabel" name="label_17">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">
 color:#edf6f9;
 font-size: 16px;
 font-weight:500;
 border:none;</string>
-                     </property>
-                     <property name="text">
-                      <string>Output:</string>
-                     </property>
-                    </widget>
-                   </item>
+                  </property>
+                  <property name="text">
+                   <string>Output:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_19" native="true">
+                  <property name="styleSheet">
+                   <string notr="true">background-color:#edf6f9;
+border-radius: 5px;</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_43">
                    <item>
                     <layout class="QVBoxLayout" name="final_output"/>
                    </item>
@@ -1781,7 +2095,7 @@ font-weight:500;</string>
                 </property>
                 <property name="icon">
                  <iconset>
-                  <normaloff>Deliverables/arrow.png</normaloff>Deliverables/arrow.png</iconset>
+                  <normaloff>icons_setup/icons/arrow.png</normaloff>icons_setup/icons/arrow.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
