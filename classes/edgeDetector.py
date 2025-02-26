@@ -10,9 +10,9 @@ class Edge_detector():
 
     def apply_edge_detectors(self, detector_type):
         if self.output_image_viewer.current_image is not None:
-            self.output_image_viewer.current_image.transfer_to_gray_scale()
-            # if len(self.output_image_viewer.current_image.modified_image.shape) == 3:
-            #     self.output_image_viewer.current_image.transfer_to_gray_scale()
+            # self.output_image_viewer.current_image.transfer_to_gray_scale()
+            if len(self.output_image_viewer.current_image.modified_image.shape) == 3:
+                self.output_image_viewer.current_image.transfer_to_gray_scale()
             print(f"detector type {detector_type}")
             if detector_type == "Sobel detector":
                 Gx, Gy = self.create_sobel_kernel()
@@ -57,7 +57,10 @@ class Edge_detector():
         return gradiant_x, gradiant_y
 
     def canny_edge_detector(self):
-        pass
+        lower_thresh = 50
+        higher_thresh = 150
+        img_edges = cv2.Canny(self.output_image_viewer.current_image.modified_image, lower_thresh, higher_thresh)
+        self.output_image_viewer.current_image.modified_image = img_edges
 
     def detecting_process(self, gradiant_x, gradiant_y, detector_type):
         image_height, image_width = self.output_image_viewer.current_image.modified_image.shape
