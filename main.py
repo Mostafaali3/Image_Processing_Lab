@@ -13,6 +13,7 @@ from enums.viewerType import ViewerType
 from classes.controller import Controller
 from classes.thresholder import Thresholder
 from enums.thresholdType import Threshold_type
+from classes.filter import Filters
 
 
 import cv2
@@ -88,6 +89,13 @@ class MainWindow(QMainWindow):
         # self.global_threshold_slider.valueChanged.connect(self.thresholder.update_global_threshold_val)
         self.global_threshold_slider.valueChanged.connect(self.update_global_threshold_val)
 
+        self.filters_comboBox = self.findChild(QComboBox, "filter_combobox")
+        self.filters_comboBox.addItem("Average Filter")
+        self.filters_comboBox.addItem("Median Filter")
+        self.filters_comboBox.addItem("Gaussiann Filter")
+        self.filter = Filters(self.output_image_viewer)
+        self.filters_comboBox.currentIndexChanged.connect(self.on_filter_type_change)
+
 
         self.controller = Controller(self.r_histogram_viewer,self.g_histogram_viewer,self.b_histogram_viewer,
                                      self.gray_histogram_viewer, self.r_cdf_viewer, self.g_cdf_viewer, self.b_cdf_viewer,
@@ -141,6 +149,12 @@ class MainWindow(QMainWindow):
         # self.thresholder.apply_global_thresholding()
         self.thresholder.apply_thresholding("GLOBAL")
         self.controller.update()
+
+    def on_filter_type_change(self):
+        filter_type = self.filters_comboBox.currentText()
+        self.filter.apply_filters(filter_type)
+        self.controller.update()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
