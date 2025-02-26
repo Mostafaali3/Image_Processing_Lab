@@ -1,5 +1,5 @@
 class Controller():
-    def __init__(self, r_histogram_viewer,g_histogram_viewer,b_histogram_viewer, gray_histogram_viewer, r_cdf_viewer, g_cdf_viewer, b_cdf_viewer,gray_cdf_viewer, input_image_viewer, output_image_viewer ):
+    def __init__(self, r_histogram_viewer,g_histogram_viewer,b_histogram_viewer, gray_histogram_viewer, r_cdf_viewer, g_cdf_viewer, b_cdf_viewer,gray_cdf_viewer, input_image_viewer, output_image_viewer):
         self.r_histogram_viewer = r_histogram_viewer
         self.g_histogram_viewer = g_histogram_viewer
         self.b_histogram_viewer = b_histogram_viewer
@@ -15,6 +15,7 @@ class Controller():
     def update(self):
         self.input_image_viewer.update_plot()
         self.output_image_viewer.update_plot()
+
     
     
     

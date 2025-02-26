@@ -15,7 +15,7 @@ class Image():
             self.is_loaded = True
             if self.__original_image.shape[2] == 1:
                 self.current_type = Type.GRAY
-                imported_image_gray_scale = cv2.cvtColor(data , cv2.COLOR_BGR2GRAY)
+                imported_image_gray_scale = cv2.cvtColor(data, cv2.COLOR_BGR2GRAY)
                 self.__original_image = np.array(imported_image_gray_scale, dtype=np.uint8)
             else:      
                 self.current_type = Type.RGB
@@ -37,6 +37,10 @@ class Image():
     @property
     def modified_image(self):
         return self.__modified_image
+
+    @modified_image.setter
+    def modified_image(self, value):
+        self.__modified_image = value
     
     def get_histogram(self, index): # implementation from scratch 
         '''

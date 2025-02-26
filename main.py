@@ -1,5 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QFrame, QVBoxLayout, QSlider, QComboBox, QPushButton, QStackedWidget, QWidget, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QFrame, QVBoxLayout, QSlider, QComboBox, QPushButton, \
+    QStackedWidget, QWidget, QFileDialog, QRadioButton
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt
@@ -10,6 +11,8 @@ from classes.image import Image
 from classes.imageViewer import ImageViewer
 from enums.viewerType import ViewerType
 from classes.controller import Controller
+from classes.thresholder import Thresholder
+from enums.thresholdType import Threshold_type
 
 
 import cv2
@@ -71,7 +74,21 @@ class MainWindow(QMainWindow):
         
         self.gray_scale_output_button = self.findChild(QPushButton, "grayscale_button")
         self.gray_scale_output_button.clicked.connect(self.on_gray_scale_button_clicked)
-        
+
+        self.local_threshold = self.findChild(QRadioButton, "local_threshold")
+        self.global_threshold = self.findChild(QRadioButton, "global_threshold")
+
+        self.local_threshold.toggled.connect(self.on_threshold_selected)
+        self.global_threshold.toggled.connect(self.on_threshold_selected)
+        self.thresholder = Thresholder(self.output_image_viewer)
+
+        self.global_threshold_slider = self.findChild(QSlider, "threshold_slider")
+        self.global_threshold_slider.setRange(0, 255)
+        self.global_threshold_slider.setValue(127)
+        # self.global_threshold_slider.valueChanged.connect(self.thresholder.update_global_threshold_val)
+        self.global_threshold_slider.valueChanged.connect(self.update_global_threshold_val)
+
+
         self.controller = Controller(self.r_histogram_viewer,self.g_histogram_viewer,self.b_histogram_viewer,
                                      self.gray_histogram_viewer, self.r_cdf_viewer, self.g_cdf_viewer, self.b_cdf_viewer,
                                      self.gray_cdf_viewer, self.input_image_viewer, self.output_image_viewer )
@@ -90,12 +107,41 @@ class MainWindow(QMainWindow):
                 self.input_image_viewer.current_image = image 
                 self.output_image_viewer.current_image = image
                 self.controller.update()
-                        
+
     def on_gray_scale_button_clicked(self):
         self.output_image_viewer.current_image.transfer_to_gray_scale()
         self.controller.update()
-        
-        
+
+    # def on_threshold_selected(self):
+    #     # never calling it twice
+    #     if self.sender().isChecked():
+    #         if self.sender() == self.local_threshold:
+    #             print("local")
+    #             self.thresholder.apply_local_thresholding()
+    #         elif self.sender() == self.global_threshold:
+    #             print("global")
+    #             self.thresholder.apply_global_thresholding()
+    #     self.controller.update()
+
+    def on_threshold_selected(self):
+        # never calling it twice
+        if self.sender().isChecked():
+            if self.sender() == self.local_threshold:
+                self.thresholder.threshold_type = "LOCAL"
+                self.thresholder.check_global_selection = False
+            elif self.sender() == self.global_threshold:
+                print("global")
+                self.thresholder.threshold_type = "GLOBAL"
+                self.thresholder.check_global_selection = True
+        self.thresholder.apply_thresholding(self.thresholder.threshold_type)
+        self.controller.update()
+
+    def update_global_threshold_val(self, value):
+        self.thresholder.global_threshold_val = value
+        # self.thresholder.apply_global_thresholding()
+        self.thresholder.apply_thresholding("GLOBAL")
+        self.controller.update()
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()

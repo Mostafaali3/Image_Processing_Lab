@@ -17,5 +17,7 @@ class ImageViewer(pg.ImageView):
             self.clear()
             if self.viewer_type == ViewerType.INPUT:
                 self.setImage(cv2.transpose(self.current_image.original_image))
+                print("gwa update_plot input")
             elif self.viewer_type == ViewerType.OUTPUT:
                 self.setImage(cv2.transpose(self.current_image.modified_image))
+                print("gwa update_plot output")
