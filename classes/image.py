@@ -60,7 +60,8 @@ class Image():
     #     return self.__original_image_fourier_components
     
     def transfer_to_gray_scale(self):
-        pass
+        imported_image_gray_scale = cv2.cvtColor(self.__original_image , cv2.COLOR_BGR2GRAY)
+        self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
     
     def mix(self, other):
         if isinstance(self, other):

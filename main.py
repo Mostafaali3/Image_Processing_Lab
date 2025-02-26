@@ -69,6 +69,9 @@ class MainWindow(QMainWindow):
         self.output_image_viewer_layout.addWidget(self.output_image_viewer)
         self.output_image_viewer.viewer_type = ViewerType.OUTPUT
         
+        self.gray_scale_output_button = self.findChild(QPushButton, "grayscale_button")
+        self.gray_scale_output_button.clicked.connect(self.on_gray_scale_button_clicked)
+        
         self.controller = Controller(self.r_histogram_viewer,self.g_histogram_viewer,self.b_histogram_viewer,
                                      self.gray_histogram_viewer, self.r_cdf_viewer, self.g_cdf_viewer, self.b_cdf_viewer,
                                      self.gray_cdf_viewer, self.input_image_viewer, self.output_image_viewer )
@@ -87,6 +90,11 @@ class MainWindow(QMainWindow):
                 self.input_image_viewer.current_image = image 
                 self.output_image_viewer.current_image = image
                 self.controller.update()
+                        
+    def on_gray_scale_button_clicked(self):
+        self.output_image_viewer.current_image.transfer_to_gray_scale()
+        self.controller.update()
+        
         
 if __name__ == '__main__':
     app = QApplication(sys.argv)
