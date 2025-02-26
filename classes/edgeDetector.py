@@ -10,14 +10,15 @@ class Edge_detector():
 
     def apply_edge_detectors(self, detector_type):
         if self.output_image_viewer.current_image is not None:
-            self.output_image_viewer.current_image.transfer_to_gray_scale()
+            if len(self.output_image_viewer.current_image.modified_image.shape) == 3:
+                self.output_image_viewer.current_image.transfer_to_gray_scale()
             print(f"detector type {detector_type}")
             if detector_type == "Sobel detector":
-                self.sobel_edge_detector(3)
+                self.sobel_edge_detector()
 
 
 
-    def sobel_edge_detector(self, kernel_size):
+    def sobel_edge_detector(self):
         image_height, image_width = self.output_image_viewer.current_image.modified_image.shape
         # default and most common is 3 for now
         kernel_size = 3
