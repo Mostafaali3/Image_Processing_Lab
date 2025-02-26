@@ -126,7 +126,7 @@ font-weight:500;</string>
         <item>
          <widget class="QStackedWidget" name="stackedWidget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="page">
            <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -277,7 +277,7 @@ font-weight:500;
 border:none;</string>
                      </property>
                      <property name="text">
-                      <string>Apply noise:</string>
+                      <string>Apply noise</string>
                      </property>
                     </widget>
                    </item>
@@ -377,7 +377,7 @@ font-weight:500;
 border:none;</string>
                      </property>
                      <property name="text">
-                      <string>Filter:</string>
+                      <string>Filter</string>
                      </property>
                     </widget>
                    </item>
@@ -499,7 +499,7 @@ font-weight:500;
 border:none;</string>
                      </property>
                      <property name="text">
-                      <string>Edge-detection Masks:</string>
+                      <string>Edge-detection Masks</string>
                      </property>
                     </widget>
                    </item>
@@ -615,7 +615,7 @@ font-weight:500;
 border:none;</string>
                      </property>
                      <property name="text">
-                      <string>Threshold:</string>
+                      <string>Threshold</string>
                      </property>
                     </widget>
                    </item>
@@ -949,7 +949,7 @@ font-weight:500;
 border:none;</string>
                       </property>
                       <property name="text">
-                       <string>Input:</string>
+                       <string>Input</string>
                       </property>
                      </widget>
                     </item>
@@ -1025,7 +1025,7 @@ font-weight:500;
 border:none;</string>
                       </property>
                       <property name="text">
-                       <string>Output:</string>
+                       <string>Output</string>
                       </property>
                      </widget>
                     </item>

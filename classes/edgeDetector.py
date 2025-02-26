@@ -10,9 +10,9 @@ class Edge_detector():
 
     def apply_edge_detectors(self, detector_type):
         if self.output_image_viewer.current_image is not None:
-            self.output_image_viewer.current_image.transfer_to_gray_scale()
-            # if len(self.output_image_viewer.current_image.modified_image.shape) == 3:
-            #     self.output_image_viewer.current_image.transfer_to_gray_scale()
+            # self.output_image_viewer.current_image.transfer_to_gray_scale()
+            if len(self.output_image_viewer.current_image.modified_image.shape) == 3:
+                self.output_image_viewer.current_image.transfer_to_gray_scale()
             print(f"detector type {detector_type}")
             if detector_type == "Sobel detector":
                 Gx, Gy = self.create_sobel_kernel()
