@@ -64,13 +64,13 @@ class Image():
     #     return self.__original_image_fourier_components
     
     def transfer_to_gray_scale(self):
-        # if self.__modified_image is not None:
-        #     imported_image_gray_scale = np.dot(self.__modified_image[...,:3], [0.2989, 0.570, 0.1140])
-        #     self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
-        #
-        #
-        imported_image_gray_scale = cv2.cvtColor(self.__original_image , cv2.COLOR_BGR2GRAY)
-        self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
+        if self.__modified_image is not None:
+            imported_image_gray_scale = np.dot(self.__modified_image[...,:3], [0.2989, 0.570, 0.1140])
+            self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
+
+
+        # imported_image_gray_scale = cv2.cvtColor(self.__original_image , cv2.COLOR_BGR2GRAY)
+        # self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
     
     def mix(self, other):
         if isinstance(self, other):

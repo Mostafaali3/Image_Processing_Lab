@@ -26,6 +26,7 @@ class Edge_detector():
             elif detector_type == "Canny detector":
                 self.canny_edge_detector()
 
+
     def create_sobel_kernel(self):
         gradiant_x = np.array([[-1, 0, 1],
                        [-2, 0, 2],
