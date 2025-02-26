@@ -90,6 +90,7 @@ class MainWindow(QMainWindow):
         self.global_threshold_slider.valueChanged.connect(self.update_global_threshold_val)
 
         self.filters_comboBox = self.findChild(QComboBox, "filter_combobox")
+        self.filters_comboBox.addItem("Select a filter")
         self.filters_comboBox.addItem("Average Filter")
         self.filters_comboBox.addItem("Median Filter")
         self.filters_comboBox.addItem("Gaussiann Filter")

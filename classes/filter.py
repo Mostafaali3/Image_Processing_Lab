@@ -8,15 +8,15 @@ class Filters():
         self.output_image_viewer = output_image_viewer
 
 
-
     def apply_filters(self, filter_type):
         if self.output_image_viewer.current_image is not None:
             self.output_image_viewer.current_image.transfer_to_gray_scale()
-            if filter_type == "AVERAGE":
+            print(f"filter type {filter_type}")
+            if filter_type == "Average Filter":
                 self.apply_average_filter()
-            elif filter_type == "MEDIAN":
+            elif filter_type == "Median Filter":
                 self.apply_median_filter()
-            elif filter_type == "GAUSSIAN":
+            elif filter_type == "Gaussiann Filter":
                 self.apply_gaussian_filter()
 
 
