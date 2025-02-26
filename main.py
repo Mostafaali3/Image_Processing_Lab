@@ -7,6 +7,11 @@ from helper_function.compile_qrc import compile_qrc
 from icons_setup.compiledIcons import *
 from classes.viewer import Viewer
 from classes.image import Image
+from classes.imageViewer import ImageViewer
+from enums.viewerType import ViewerType
+from classes.controller import Controller
+
+
 import cv2
 
 
@@ -53,6 +58,21 @@ class MainWindow(QMainWindow):
         
         self.main_page_browse_button = self.findChild(QPushButton, "browse")
         self.main_page_browse_button.clicked.connect(self.browse_image)
+        
+        self.input_image_viewer_layout = self.findChild(QVBoxLayout, "input")
+        self.input_image_viewer = ImageViewer()
+        self.input_image_viewer_layout.addWidget(self.input_image_viewer)
+        self.input_image_viewer.viewer_type = ViewerType.INPUT
+        
+        self.output_image_viewer_layout = self.findChild(QVBoxLayout, "output")
+        self.output_image_viewer = ImageViewer()
+        self.output_image_viewer_layout.addWidget(self.output_image_viewer)
+        self.output_image_viewer.viewer_type = ViewerType.OUTPUT
+        
+        self.controller = Controller(self.r_histogram_viewer,self.g_histogram_viewer,self.b_histogram_viewer,
+                                     self.gray_histogram_viewer, self.r_cdf_viewer, self.g_cdf_viewer, self.b_cdf_viewer,
+                                     self.gray_cdf_viewer, self.input_image_viewer, self.output_image_viewer )
+        
     
         
     def browse_image(self):
@@ -64,6 +84,9 @@ class MainWindow(QMainWindow):
                 temp_image = cv2.imread(file_path)
                 print(temp_image.shape[0],temp_image.shape[1],temp_image.shape[2])
                 image = Image(temp_image)
+                self.input_image_viewer.current_image = image 
+                self.output_image_viewer.current_image = image
+                self.controller.update()
         
 if __name__ == '__main__':
     app = QApplication(sys.argv)
