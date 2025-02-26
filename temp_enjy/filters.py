@@ -46,7 +46,7 @@ class Image_processing_lab(QMainWindow):
         if self.image is None:
             return
         image_height, image_width = self.image.shape
-        kernel_size = 3  # odd num input passed mn el func
+        kernel_size = 5 # odd num input passed mn el func
         filtered_img = np.zeros_like(self.image, dtype=np.float32)
 
         #creating the kernel
@@ -74,7 +74,7 @@ class Image_processing_lab(QMainWindow):
         if self.image is None:
             return
         image_height, image_width = self.image.shape
-        kernel_size = 3  # odd num input passed mn el func
+        kernel_size = 5 # odd num input passed mn el func
         filtered_img = np.zeros_like(self.image, dtype=np.uint8)
 
         # creating padding (fake pixels to handle edges)
@@ -113,7 +113,7 @@ class Image_processing_lab(QMainWindow):
             return
 
         image_height, image_width = self.image.shape
-        kernel_size = 3  # odd num input passed mn el func
+        kernel_size = 13  # odd num input passed mn el func
         filtered_img = np.zeros_like(self.image, dtype=np.float32)
 
         # creating the Gaussian kernel
