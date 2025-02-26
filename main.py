@@ -166,7 +166,8 @@ class MainWindow(QMainWindow):
         self.controller.update()
 
     def on_detector_type_change(self):
-        detector_type = self.filters_comboBox.currentText()
+        detector_type = self.edge_detectors_comboBox.currentText()
+        self.edge_detector.apply_edge_detectors(detector_type)
         self.controller.update()
 
 

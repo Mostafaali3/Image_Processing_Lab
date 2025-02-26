@@ -55,8 +55,8 @@ class Filters():
 
         # creating padding (fake pixels to handle edges)
         pad_size = kernel_size // 2
-        padded_image = cv2.copyMakeBorder(self.output_image_viewer.current_image.modified_image, pad_size, pad_size, pad_size, pad_size, cv2.BORDER_REFLECT)
-        # print(f"hena padded_img {padded_image}")
+        padded_image = np.pad(self.output_image_viewer.current_image.modified_image,
+                              ((pad_size, pad_size), (pad_size, pad_size)), mode='reflect')        # print(f"hena padded_img {padded_image}")
 
         for i in range(pad_size, image_height + pad_size):
             for j in range(pad_size, image_width + pad_size):
