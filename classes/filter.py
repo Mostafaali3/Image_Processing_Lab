@@ -10,8 +10,9 @@ class Filters():
 
     def apply_filters(self, filter_type):
         if self.output_image_viewer.current_image is not None:
-            if len(self.output_image_viewer.current_image.modified_image.shape) == 3:
-                self.output_image_viewer.current_image.transfer_to_gray_scale()
+            self.output_image_viewer.current_image.transfer_to_gray_scale()
+            # if len(self.output_image_viewer.current_image.modified_image.shape) == 3:
+            #     self.output_image_viewer.current_image.transfer_to_gray_scale()
             print(f"filter type {filter_type}")
             if filter_type == "Average Filter":
                 self.apply_average_filter()

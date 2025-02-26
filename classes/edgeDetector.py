@@ -10,43 +10,23 @@ class Edge_detector():
 
     def apply_edge_detectors(self, detector_type):
         if self.output_image_viewer.current_image is not None:
-            if len(self.output_image_viewer.current_image.modified_image.shape) == 3:
-                self.output_image_viewer.current_image.transfer_to_gray_scale()
+            self.output_image_viewer.current_image.transfer_to_gray_scale()
+            # if len(self.output_image_viewer.current_image.modified_image.shape) == 3:
+            #     self.output_image_viewer.current_image.transfer_to_gray_scale()
             print(f"detector type {detector_type}")
             if detector_type == "Sobel detector":
-                self.sobel_edge_detector()
+                Gx, Gy = self.create_sobel_kernel()
+                self.detecting_process(Gx, Gy, detector_type)
+            elif detector_type == "Roberts detector":
+                Gx, Gy = self.create_roberts_kernel()
+                self.detecting_process(Gx, Gy, detector_type)
+            elif detector_type == "Prewitt detector":
+                Gx, Gy = self.create_prewitt_kernel()
+                self.detecting_process(Gx, Gy, detector_type)
+            elif detector_type == "Canny detector":
+                self.canny_edge_detector()
 
-
-
-    def sobel_edge_detector(self):
-        image_height, image_width = self.output_image_viewer.current_image.modified_image.shape
-        # default and most common is 3 for now
-        kernel_size = 3
-        Gx, Gy = self.create_sobel_kernel(kernel_size)
-
-        # gradiants for x and y
-        G_x = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.float32)
-        G_y = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.float32)
-
-        pad_size = kernel_size // 2
-        # gpt shit so 7arfyan no diff --> instead of opencv
-        padded_image = np.pad(self.output_image_viewer.current_image.modified_image,((pad_size, pad_size), (pad_size, pad_size)), mode='reflect')
-
-        for i in range(pad_size, image_height + pad_size):
-            for j in range(pad_size, image_width + pad_size):
-                region = padded_image[i - pad_size:i + pad_size + 1, j - pad_size:j + pad_size + 1]
-                G_x[i - pad_size,j - pad_size] = np.sum(region * Gx)
-                G_y[i -pad_size, j - pad_size] =np.sum(region * Gy)
-
-        gradient_magnitude =np.sqrt(G_x ** 2 + G_y ** 2)
-        threshold = 50
-        # edges = gradient_magnitude > threshold
-        #normailzation
-        gradient_magnitude = (gradient_magnitude / np.max(gradient_magnitude)) * 255
-        gradient_magnitude = gradient_magnitude.astype(np.uint8)
-        self.output_image_viewer.current_image.modified_image = gradient_magnitude
-
-    def create_sobel_kernel(self, kernel_size):
+    def create_sobel_kernel(self):
         gradiant_x = np.array([[-1, 0, 1],
                        [-2, 0, 2],
                        [-1, 0, 1]])
@@ -56,15 +36,63 @@ class Edge_detector():
                        [1, 2, 1]])
         return gradiant_x, gradiant_y
 
-    def roberts_edge_detector(self):
-        pass
+    def create_roberts_kernel(self):
+        gradiant_x = np.array([[1, 0],
+                       [0, -1]])
+
+        gradiant_y = np.array([[0, 1],
+                       [-1, 0]])
+        return gradiant_x, gradiant_y
 
 
-    def prewitt_edge_detector(self):
-        pass
+    def create_prewitt_kernel(self):
+        gradiant_x = np.array([[-1, 0, 1],
+                               [-1, 0, 1],
+                               [-1, 0, 1]])
+
+        gradiant_y = np.array([[-1, -1, -1],
+                               [0, 0, 0],
+                               [1, 1, 1]])
+        return gradiant_x, gradiant_y
 
     def canny_edge_detector(self):
         pass
+
+    def detecting_process(self, gradiant_x, gradiant_y, detector_type):
+        image_height, image_width = self.output_image_viewer.current_image.modified_image.shape
+        # default and most common is 3 for now
+        Gx, Gy = gradiant_x, gradiant_y
+
+        # gradiants for x and y
+        G_x = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.float32)
+        G_y = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.float32)
+
+        # kernel_size 2 or 3 --> eventually pad_size is 1
+        pad_size = 1
+        # gpt shit so 7arfyan no diff --> instead of opencv
+        padded_image = np.pad(self.output_image_viewer.current_image.modified_image, ((pad_size, pad_size), (pad_size, pad_size)), mode='reflect')
+
+        if detector_type == "Roberts detector":
+            for i in range(pad_size, image_height + pad_size):
+                for j in range(pad_size, image_width + pad_size):
+                    region = padded_image[i - pad_size:i + pad_size, j - pad_size:j + pad_size]
+                    G_x[i - pad_size, j - pad_size] = np.sum(region * Gx)
+                    G_y[i - pad_size, j - pad_size] = np.sum(region * Gy)
+
+        else:
+            for i in range(pad_size, image_height + pad_size):
+                for j in range(pad_size, image_width + pad_size):
+                    region = padded_image[i - pad_size:i + pad_size + 1, j - pad_size:j + pad_size + 1]
+                    G_x[i - pad_size, j - pad_size] = np.sum(region * Gx)
+                    G_y[i - pad_size, j - pad_size] = np.sum(region * Gy)
+
+        gradient_magnitude = np.sqrt(G_x ** 2 + G_y ** 2)
+        threshold = 50
+        # edges = gradient_magnitude > threshold
+        # normailzation
+        gradient_magnitude = (gradient_magnitude / np.max(gradient_magnitude)) * 255
+        gradient_magnitude = gradient_magnitude.astype(np.uint8)
+        self.output_image_viewer.current_image.modified_image = gradient_magnitude
 
     def kernel_restrictions(self, kernel_size):
         if kernel_size <3 :
@@ -75,8 +103,33 @@ class Edge_detector():
             raise ValueError("pick a smaller kernel size")
 
 
-import numpy as np
-import cv2
 
 
 
+    # def sobel_edge_detector(self):
+    #     image_height, image_width = self.output_image_viewer.current_image.modified_image.shape
+    #     # default and most common is 3 for now
+    #     kernel_size = 3
+    #     Gx, Gy = self.create_sobel_kernel()
+    #
+    #     # gradiants for x and y
+    #     G_x = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.float32)
+    #     G_y = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.float32)
+    #
+    #     pad_size = kernel_size // 2
+    #     # gpt shit so 7arfyan no diff --> instead of opencv
+    #     padded_image = np.pad(self.output_image_viewer.current_image.modified_image,((pad_size, pad_size), (pad_size, pad_size)), mode='reflect')
+    #
+    #     for i in range(pad_size, image_height + pad_size):
+    #         for j in range(pad_size, image_width + pad_size):
+    #             region = padded_image[i - pad_size:i + pad_size + 1, j - pad_size:j + pad_size + 1]
+    #             G_x[i - pad_size,j - pad_size] = np.sum(region * Gx)
+    #             G_y[i -pad_size, j - pad_size] =np.sum(region * Gy)
+    #
+    #     gradient_magnitude =np.sqrt(G_x ** 2 + G_y ** 2)
+    #     threshold = 50
+    #     # edges = gradient_magnitude > threshold
+    #     #normailzation
+    #     gradient_magnitude = (gradient_magnitude / np.max(gradient_magnitude)) * 255
+    #     gradient_magnitude = gradient_magnitude.astype(np.uint8)
+    #     self.output_image_viewer.current_image.modified_image = gradient_magnitude
