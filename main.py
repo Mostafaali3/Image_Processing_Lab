@@ -14,7 +14,7 @@ from classes.controller import Controller
 from classes.thresholder import Thresholder
 from enums.thresholdType import Threshold_type
 from classes.filter import Filters
-
+from classes.edgeDetector import Edge_detector
 
 import cv2
 
@@ -97,6 +97,15 @@ class MainWindow(QMainWindow):
         self.filter = Filters(self.output_image_viewer)
         self.filters_comboBox.currentIndexChanged.connect(self.on_filter_type_change)
 
+        self.edge_detectors_comboBox = self.findChild(QComboBox, "mask_combobox")
+        self.edge_detectors_comboBox.addItem("Edge detector type")
+        self.edge_detectors_comboBox.addItem("Sobel detector")
+        self.edge_detectors_comboBox.addItem("Roberts detector")
+        self.edge_detectors_comboBox.addItem("Prewitt detector")
+        self.edge_detectors_comboBox.addItem("Canny detector")
+        self.edge_detector = Edge_detector(self.output_image_viewer)
+        self.edge_detectors_comboBox.currentIndexChanged.connect(self.on_detector_type_change)
+
 
         self.controller = Controller(self.r_histogram_viewer,self.g_histogram_viewer,self.b_histogram_viewer,
                                      self.gray_histogram_viewer, self.r_cdf_viewer, self.g_cdf_viewer, self.b_cdf_viewer,
@@ -154,6 +163,10 @@ class MainWindow(QMainWindow):
     def on_filter_type_change(self):
         filter_type = self.filters_comboBox.currentText()
         self.filter.apply_filters(filter_type)
+        self.controller.update()
+
+    def on_detector_type_change(self):
+        detector_type = self.filters_comboBox.currentText()
         self.controller.update()
 
 
