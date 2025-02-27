@@ -14,26 +14,28 @@ from classes.controller import Controller
 from classes.thresholder import Thresholder
 from classes.noiser import Noiser
 from enums.thresholdType import Threshold_type
+from enums.type import Type
 from classes.filter import Filters
 from classes.edgeDetector import Edge_detector
-
+from enums.graphType import GraphType
+from enums.colors import Color
 import cv2
 
 
-compile_qrc()
+# compile_qrc()
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         loadUi('main.ui', self)
-        self.r_histogram_viewer = Viewer()
-        self.g_histogram_viewer = Viewer()
-        self.b_histogram_viewer = Viewer()
-        self.gray_histogram_viewer = Viewer()
-        self.r_cdf_viewer = Viewer()
-        self.g_cdf_viewer = Viewer()
-        self.b_cdf_viewer = Viewer()
-        self.gray_cdf_viewer = Viewer()
+        self.r_histogram_viewer = Viewer(Color.R, GraphType.HISTO)
+        self.g_histogram_viewer = Viewer(Color.G, GraphType.HISTO)
+        self.b_histogram_viewer = Viewer(Color.B, GraphType.HISTO)
+        self.gray_histogram_viewer = Viewer(Color.GRAY, GraphType.HISTO)
+        self.r_cdf_viewer = Viewer(Color.R, GraphType.CDF)
+        self.g_cdf_viewer = Viewer(Color.G, GraphType.CDF)
+        self.b_cdf_viewer = Viewer(Color.B, GraphType.CDF)
+        self.gray_cdf_viewer = Viewer(Color.GRAY, GraphType.CDF)
         
         self.gray_histogram_widget = self.findChild(QWidget, "widget_17")
         self.gray_histogram_layout = self.gray_histogram_widget.layout()
@@ -42,6 +44,12 @@ class MainWindow(QMainWindow):
         self.gray_cdf_widget = self.findChild(QWidget, "widget_18")
         self.gray_cdf_layout = self.gray_cdf_widget.layout()
         self.gray_cdf_layout.addWidget(self.gray_cdf_viewer)
+        
+        self.gray_cdf_layout = self.findChild(QVBoxLayout, "gray_cdf")
+        self.gray_cdf_layout.addWidget(self.gray_cdf_viewer)
+        
+        self.gray_histogram_layout = self.findChild(QVBoxLayout, "gray_histogram")
+        self.gray_histogram_layout.addWidget(self.gray_histogram_viewer)
         
         self.r_histogram_layout = self.findChild(QVBoxLayout, "red_histogram")
         self.r_histogram_layout.addWidget(self.r_histogram_viewer)
@@ -73,6 +81,26 @@ class MainWindow(QMainWindow):
         self.output_image_viewer = ImageViewer()
         self.output_image_viewer_layout.addWidget(self.output_image_viewer)
         self.output_image_viewer.viewer_type = ViewerType.OUTPUT
+        
+        self.input_hybrid_image_viewer_1_layout = self.findChild(QVBoxLayout, "input_1")
+        self.input_hybrid_image_viewer_1 = ImageViewer()
+        self.input_hybrid_image_viewer_1_layout.addWidget(self.input_hybrid_image_viewer_1)
+        
+        self.filtered_hybrid_image_viewer_1_layout = self.findChild(QVBoxLayout, "output_1")
+        self.filtered_hybrid_image_viewer_1 = ImageViewer()
+        self.filtered_hybrid_image_viewer_1_layout.addWidget(self.filtered_hybrid_image_viewer_1)
+        
+        self.input_hybrid_image_viewer_2_layout = self.findChild(QVBoxLayout, "input_2")
+        self.input_hybrid_image_viewer_2 = ImageViewer()
+        self.input_hybrid_image_viewer_2_layout.addWidget(self.input_hybrid_image_viewer_2)
+        
+        self.filtered_hybrid_image_viewer_2_layout = self.findChild(QVBoxLayout, "output_2")
+        self.filtered_hybrid_image_viewer_2 = ImageViewer()
+        self.filtered_hybrid_image_viewer_2_layout.addWidget(self.filtered_hybrid_image_viewer_2)
+        
+        self.final_hybrid_image_viewer_2_layout = self.findChild(QVBoxLayout, "final_output")
+        self.final_hybrid_image_viewer_2 = ImageViewer()
+        self.final_hybrid_image_viewer_2_layout.addWidget(self.final_hybrid_image_viewer_2)
         
         self.gray_scale_output_button = self.findChild(QPushButton, "grayscale_button")
         self.gray_scale_output_button.clicked.connect(self.on_gray_scale_button_clicked)
@@ -122,7 +150,21 @@ class MainWindow(QMainWindow):
                                      self.gray_histogram_viewer, self.r_cdf_viewer, self.g_cdf_viewer, self.b_cdf_viewer,
                                      self.gray_cdf_viewer, self.input_image_viewer, self.output_image_viewer )
         
-    
+        self.main_stacked_widget = self.findChild(QStackedWidget, "stackedWidget")
+        self.histogram_stacked_widget = self.findChild(QStackedWidget, "stackedWidget_2")
+        
+        self.hybrid_mode_button = self.findChild(QPushButton, "hybrid_button")
+        self.hybrid_mode_button.clicked.connect(self.on_hybrid_mode_button_clicked)
+
+        self.show_histogram_button = self.findChild(QPushButton, "histograms_button")
+        self.show_histogram_button.clicked.connect(self.on_show_histogram_button_clicked)
+
+        self.back_from_histogram_button = self.findChild(QPushButton, "back_histo_button")
+        self.back_from_histogram_button.clicked.connect(self.on_back_from_histogram_button_clicked)
+
+        self.equalize_image_button = self.findChild(QPushButton, "equalizer_button")
+        self.equalize_image_button.clicked.connect(self.on_equalized_button_cliked)
+        
         
     def browse_image(self):
         print("pushed")
@@ -135,12 +177,49 @@ class MainWindow(QMainWindow):
                 image = Image(temp_image)
                 self.input_image_viewer.current_image = image 
                 self.output_image_viewer.current_image = image
+                # make the viewer track the output image
+                self.r_histogram_viewer.output_image = image
+                self.r_cdf_viewer.output_image = image
+                self.g_histogram_viewer.output_image = image
+                self.g_cdf_viewer.output_image = image
+                self.b_histogram_viewer.output_image = image
+                self.b_cdf_viewer.output_image = image
+                self.gray_histogram_viewer.output_image = image
+                self.gray_cdf_viewer.output_image = image
+                # update
                 self.controller.update()
 
     def on_gray_scale_button_clicked(self):
         self.output_image_viewer.current_image.transfer_to_gray_scale()
         self.controller.update()
+        
+    def on_hybrid_mode_button_clicked(self):
+        page_index = self.main_stacked_widget.indexOf(self.findChild(QWidget, "page_2"))
+        if page_index != -1:
+            self.main_stacked_widget.setCurrentIndex(page_index)
+            
+    def on_show_histogram_button_clicked(self):
+        page_index = self.main_stacked_widget.indexOf(self.findChild(QWidget, "page_3"))
+        if page_index != -1:
+            self.main_stacked_widget.setCurrentIndex(page_index)
+            # conditions for gray scale or rgb
 
+            if len(self.output_image_viewer.current_image.modified_image.shape )==2:
+                histogram_index = self.histogram_stacked_widget.indexOf(self.findChild(QWidget, "page_5"))
+            else:
+                histogram_index = self.histogram_stacked_widget.indexOf(self.findChild(QWidget, "page_4"))
+
+            if histogram_index != -1:
+                self.histogram_stacked_widget.setCurrentIndex(histogram_index)
+
+    
+    def on_back_from_histogram_button_clicked(self):
+        page_index = self.main_stacked_widget.indexOf(self.findChild(QWidget, "page"))
+        if page_index != -1:
+            self.main_stacked_widget.setCurrentIndex(page_index)
+    def on_equalized_button_cliked(self):
+        self.output_image_viewer.current_image.equalize_image()
+        self.controller.update()
     # def on_threshold_selected(self):
     #     # never calling it twice
     #     if self.sender().isChecked():
