@@ -5,7 +5,7 @@ from enums.type import Type
 
 
 class Image():
-    def __init__(self, data=None):
+    def __init__(self, data=None, calculate_fourier = True):
         self.__original_image = data
         self.__modified_image = deepcopy(data)
         self.is_loaded = False
@@ -13,20 +13,22 @@ class Image():
         self.current_type = Type.NONE
         if data is not None:
             self.is_loaded = True
-            if self.__original_image.shape[2] == 1:
+            if len(self.__original_image.shape) == 2:
                 self.current_type = Type.GRAY
-                imported_image_gray_scale = cv2.cvtColor(data, cv2.COLOR_BGR2GRAY)
-                self.__original_image = np.array(imported_image_gray_scale, dtype=np.uint8)
+                # imported_image_gray_scale = cv2.cvtColor(data, cv2.COLOR_BGR2GRAY)
+                self.__original_image = np.array(data, dtype=np.uint8)
             else:
                 self.current_type = Type.RGB
                 image_rgb = cv2.cvtColor(data, cv2.COLOR_BGR2RGB)
                 self.__original_image = image_rgb
                 self.r_channel, self.g_channel, self.b_channel = cv2.split(self.__original_image)
             self.__modified_image = deepcopy(self.__original_image)
-            #self.transfer_to_gray_scale()
-
-            self.__image_fourier_components = np.fft.fft2(self.__original_image)
-            self.__image_fourier_components = np.fft.fftshift(self.__image_fourier_components)
+            
+            if calculate_fourier:
+                self.transfer_to_gray_scale()
+                self.__image_fourier_components = np.fft.fft2(self.__modified_image)
+                self.__image_fourier_components = np.fft.fftshift(self.__image_fourier_components)
+                self.reset()
 
             self.original_image_distributions = []
             self.modified_image_distributions = []
@@ -113,13 +115,26 @@ class Image():
         #     self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
         #
         #
-        imported_image_gray_scale = cv2.cvtColor(self.__original_image, cv2.COLOR_BGR2GRAY)
-        self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
-        print(f"modified img shape {self.__modified_image.shape}")
+        if len(self.__original_image.shape) != 2:
+            imported_image_gray_scale = cv2.cvtColor(self.__original_image, cv2.COLOR_BGR2GRAY)
+            self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
+            print(f"modified img shape {self.__modified_image.shape}")
         
     def reset(self):
         self.__modified_image = deepcopy(self.__original_image)
 
     def mix(self, other):
-        if isinstance(self, other):
-            pass
+        print(f"{self.__modified_image.shape}")
+        print(f"{other.modified_image.shape}")
+        
+        rows_1, cols_1 = self.__modified_image.shape
+        rows_2, cols_2 = other.modified_image.shape
+        rows = min(rows_1, rows_2)
+        cols = min(cols_1, cols_2)
+        first_image = self.modified_image[:rows,:cols]
+        sec_image = other.modified_image[:rows,:cols]
+        
+        result_sum = first_image.astype(np.float32) + sec_image.astype(np.float32)
+        result = (result_sum/2).astype(np.uint8)
+        new_image = Image(result)
+        return new_image

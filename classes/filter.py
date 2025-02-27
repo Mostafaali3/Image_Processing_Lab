@@ -4,8 +4,10 @@ import numpy as np
 
 
 class Filters():
-    def __init__(self, output_image_viewer):
+    def __init__(self, output_image_viewer, filtered_hybrid_image_viewer_1, filtered_hybrid_image_viewer_2):
         self.output_image_viewer = output_image_viewer
+        self.filtered_hybrid_image_viewer_1 = filtered_hybrid_image_viewer_1
+        self.filtered_hybrid_image_viewer_2 = filtered_hybrid_image_viewer_2
 
 
     def apply_filters(self, filter_type):
@@ -111,28 +113,50 @@ class Filters():
         print(f"hena filtered_img {filtered_img}")
         self.output_image_viewer.current_image.modified_image = filtered_img
 
-    def apply_low_pass_filter(self, region_factor):
-        if self.output_image_viewer.current_image is not None:
-            low_pass_mat = self.create_fourier_filter_mask(region_factor)
-            filtered_fourier = self.output_image_viewer.current_image.image_fourier_components* low_pass_mat
+    def apply_low_pass_filter(self, region_factor, viewer_number = None):
+        if viewer_number == 1:
+            current_output_viewer_to_process = self.filtered_hybrid_image_viewer_1
+        elif viewer_number == 2:
+            current_output_viewer_to_process = self.filtered_hybrid_image_viewer_2
+        else:
+            current_output_viewer_to_process = self.output_image_viewer
+        
+        if current_output_viewer_to_process.current_image is not None:
+            low_pass_mat = self.create_fourier_filter_mask(region_factor, viewer_number)
+            filtered_fourier = current_output_viewer_to_process.current_image.image_fourier_components* low_pass_mat
             filtered_img = np.fft.ifftshift(filtered_fourier)
             filtered_img = np.fft.ifft2(filtered_img)
             filtered_img = np.abs(filtered_img).astype(np.uint8)
+            current_output_viewer_to_process.current_image.modified_image = filtered_img
+            # return filtered_img
 
-            return filtered_img
 
-
-    def apply_high_pass_filter(self, region_factor):
-        if self.output_image_viewer.current_image is not None:
-            high_pass_mat = 1 - self.create_fourier_filter_mask(region_factor)
-            filtered_fourier = self.output_image_viewer.current_image.image_fourier_components * high_pass_mat
+    def apply_high_pass_filter(self, region_factor, viewer_number = None):
+        if viewer_number == 1:
+            current_output_viewer_to_process = self.filtered_hybrid_image_viewer_1
+        elif viewer_number == 2:
+            current_output_viewer_to_process = self.filtered_hybrid_image_viewer_2
+        else:
+            current_output_viewer_to_process = self.output_image_viewer
+        
+        if current_output_viewer_to_process.current_image is not None:
+            high_pass_mat = 1 - self.create_fourier_filter_mask(region_factor, viewer_number)
+            filtered_fourier = current_output_viewer_to_process.current_image.image_fourier_components * high_pass_mat
             filtered_img = np.fft.ifftshift(filtered_fourier)
             filtered_img = np.fft.ifft2(filtered_img)
             filtered_img = np.abs(filtered_img).astype(np.uint8)
-            return filtered_img
+            current_output_viewer_to_process.current_image.modified_image = filtered_img
+            # return filtered_img
 
-    def create_fourier_filter_mask(self,region_factor):
-        rows, cols = self.output_image_viewer.current_image.image_fourier_components.shape
+    def create_fourier_filter_mask(self,region_factor, viewer_number=None):
+        if viewer_number == 1:
+            current_output_viewer_to_process = self.filtered_hybrid_image_viewer_1
+        elif viewer_number == 2:
+            current_output_viewer_to_process = self.filtered_hybrid_image_viewer_2
+        else:
+            current_output_viewer_to_process = self.output_image_viewer
+        
+        rows, cols = current_output_viewer_to_process.current_image.image_fourier_components.shape
         center_row, center_col = rows// 2, cols// 2
         kernel = np.zeros((rows, cols), np.uint8)
         # choosing the min between el height wl width --> thus the region will never exceed the pic

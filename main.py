@@ -89,6 +89,7 @@ class MainWindow(QMainWindow):
         
         self.filtered_hybrid_image_viewer_1_layout = self.findChild(QVBoxLayout, "output_1")
         self.filtered_hybrid_image_viewer_1 = ImageViewer()
+        self.filtered_hybrid_image_viewer_1.viewer_type = ViewerType.OUTPUT
         self.filtered_hybrid_image_viewer_1_layout.addWidget(self.filtered_hybrid_image_viewer_1)
         
         self.input_hybrid_image_viewer_2_layout = self.findChild(QVBoxLayout, "input_2")
@@ -97,11 +98,13 @@ class MainWindow(QMainWindow):
         
         self.filtered_hybrid_image_viewer_2_layout = self.findChild(QVBoxLayout, "output_2")
         self.filtered_hybrid_image_viewer_2 = ImageViewer()
+        self.filtered_hybrid_image_viewer_2.viewer_type = ViewerType.OUTPUT
         self.filtered_hybrid_image_viewer_2_layout.addWidget(self.filtered_hybrid_image_viewer_2)
         
-        self.final_hybrid_image_viewer_2_layout = self.findChild(QVBoxLayout, "final_output")
-        self.final_hybrid_image_viewer_2 = ImageViewer()
-        self.final_hybrid_image_viewer_2_layout.addWidget(self.final_hybrid_image_viewer_2)
+        self.final_hybrid_image_viewer_layout = self.findChild(QVBoxLayout, "final_output")
+        self.final_hybrid_image_viewer = ImageViewer()
+        self.final_hybrid_image_viewer.viewer_type = ViewerType.HYBRID
+        self.final_hybrid_image_viewer_layout.addWidget(self.final_hybrid_image_viewer)
         
         self.gray_scale_output_button = self.findChild(QPushButton, "grayscale_button")
         self.gray_scale_output_button.clicked.connect(self.on_gray_scale_button_clicked)
@@ -124,7 +127,7 @@ class MainWindow(QMainWindow):
         self.filters_comboBox.addItem("Average Filter")
         self.filters_comboBox.addItem("Median Filter")
         self.filters_comboBox.addItem("Gaussiann Filter")
-        self.filter = Filters(self.output_image_viewer)
+        self.filter = Filters(self.output_image_viewer, self.filtered_hybrid_image_viewer_1, self.filtered_hybrid_image_viewer_2)
         self.filters_comboBox.model().item(0).setFlags(Qt.NoItemFlags)
         self.filters_comboBox.currentIndexChanged.connect(self.on_filter_type_change)
 
@@ -151,7 +154,7 @@ class MainWindow(QMainWindow):
         self.controller = Controller(self.r_histogram_viewer,self.g_histogram_viewer,self.b_histogram_viewer,
                                      self.gray_histogram_viewer, self.r_cdf_viewer, self.g_cdf_viewer, self.b_cdf_viewer,
                                      self.gray_cdf_viewer, self.input_image_viewer, self.output_image_viewer, self.input_hybrid_image_viewer_1, self.input_hybrid_image_viewer_2
-                                     ,self.filtered_hybrid_image_viewer_1, self.filtered_hybrid_image_viewer_2)
+                                     ,self.filtered_hybrid_image_viewer_1, self.filtered_hybrid_image_viewer_2, self.final_hybrid_image_viewer)
         
         self.main_stacked_widget = self.findChild(QStackedWidget, "stackedWidget")
         self.histogram_stacked_widget = self.findChild(QStackedWidget, "stackedWidget_2")
@@ -163,7 +166,10 @@ class MainWindow(QMainWindow):
         self.show_histogram_button.clicked.connect(self.on_show_histogram_button_clicked)
 
         self.back_from_histogram_button = self.findChild(QPushButton, "back_histo_button")
-        self.back_from_histogram_button.clicked.connect(self.on_back_from_histogram_button_clicked)
+        self.back_from_histogram_button.clicked.connect(self.on_back_to_main_button_clicked)
+        
+        self.back_from_hybrid_mode_button = self.findChild(QPushButton, "pushButton_5")
+        self.back_from_hybrid_mode_button.clicked.connect(self.on_back_to_main_button_clicked)
 
         self.equalize_image_button = self.findChild(QPushButton, "equalizer_button")
         self.equalize_image_button.clicked.connect(self.on_equalized_button_cliked)
@@ -219,9 +225,11 @@ class MainWindow(QMainWindow):
                     if viewer_index == 1:
                         self.input_hybrid_image_viewer_1.current_image = image
                         self.filtered_hybrid_image_viewer_1.current_image = image
+                        self.final_hybrid_image_viewer.current_image = image
                     else: 
                         self.input_hybrid_image_viewer_2.current_image = image
                         self.filtered_hybrid_image_viewer_2.current_image = image
+                        self.final_hybrid_image_viewer.other_image = image
                     self.controller.update_hybrid()
                         
 
@@ -249,10 +257,11 @@ class MainWindow(QMainWindow):
                 self.histogram_stacked_widget.setCurrentIndex(histogram_index)
 
     
-    def on_back_from_histogram_button_clicked(self):
+    def on_back_to_main_button_clicked(self):
         page_index = self.main_stacked_widget.indexOf(self.findChild(QWidget, "page"))
         if page_index != -1:
             self.main_stacked_widget.setCurrentIndex(page_index)
+        
     def on_equalized_button_cliked(self):
         self.output_image_viewer.current_image.equalize_image()
         self.controller.update()
@@ -440,15 +449,15 @@ class MainWindow(QMainWindow):
         # print(slider_number)
         if slider_number == 1:
             if self.low_high_filters_slider_1.value() == 0: #low
-                print(0)
+                self.filter.apply_low_pass_filter(current_filtering_ratio,1)
             else:
-                print(1)
+                self.filter.apply_high_pass_filter(current_filtering_ratio,1)
         else:
             if self.low_high_filters_slider_2.value() == 0: #low
-                print(0)
+                self.filter.apply_low_pass_filter(current_filtering_ratio,2)
             else:
-                print(1)
-            
+                self.filter.apply_high_pass_filter(current_filtering_ratio,2)
+        self.controller.update_hybrid()
 
 
 if __name__ == '__main__':
