@@ -117,23 +117,23 @@ class Filters():
             filtered_fourier = self.output_image_viewer.current_image.image_fourier_components* low_pass_mat
             filtered_img = np.fft.ifftshift(filtered_fourier)
             filtered_img = np.fft.ifft2(filtered_img)
-            filtered_img = np.abs(filtered_img)
+            filtered_img = np.abs(filtered_img).astype(np.uint8)
 
             return filtered_img
 
 
     def apply_high_pass_filter(self, region_factor):
         if self.output_image_viewer.current_image is not None:
-            low_pass_mat = 1 - self.create_fourier_filter_mask(region_factor)
-            filtered_fourier = self.output_image_viewer.current_image.image_fourier_components * low_pass_mat
+            high_pass_mat = 1 - self.create_fourier_filter_mask(region_factor)
+            filtered_fourier = self.output_image_viewer.current_image.image_fourier_components * high_pass_mat
             filtered_img = np.fft.ifftshift(filtered_fourier)
             filtered_img = np.fft.ifft2(filtered_img)
-            filtered_img = np.abs(filtered_img)
+            filtered_img = np.abs(filtered_img).astype(np.uint8)
             return filtered_img
 
     def create_fourier_filter_mask(self,region_factor):
         rows, cols = self.output_image_viewer.current_image.image_fourier_components.shape
-        center_row, center_col = rows // 2, cols // 2
+        center_row, center_col = rows// 2, cols// 2
         kernel = np.zeros((rows, cols), np.uint8)
         # choosing the min between el height wl width --> thus the region will never exceed the pic
         limiting_factor = min(center_row, center_col)
