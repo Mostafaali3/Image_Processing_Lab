@@ -15,6 +15,15 @@ class Controller():
     def update(self):
         self.input_image_viewer.update_plot()
         self.output_image_viewer.update_plot()
+        self.r_histogram_viewer.output_image.get_histogram() # to update the calculations
+        self.r_histogram_viewer.update_histogram()
+        self.g_histogram_viewer.update_histogram()
+        self.b_histogram_viewer.update_histogram()
+        self.gray_histogram_viewer.update_histogram()
+        self.gray_cdf_viewer.update_histogram()
+        self.r_cdf_viewer.update_histogram()
+        self.b_cdf_viewer.update_histogram()
+        self.g_cdf_viewer.update_histogram()
 
     
     

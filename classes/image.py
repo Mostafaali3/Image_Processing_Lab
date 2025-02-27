@@ -25,7 +25,11 @@ class Image():
             self.__modified_image = deepcopy(self.__original_image)
             self.original_image_distributions = []
             self.modified_image_distributions = []
-            
+            self.gray_histo_vector = np.zeros(256)
+            self.gray_cum_vector = np.zeros(256)
+            self.blue_histo_vector, self.green_histo_vector, self.red_histo_vector = np.zeros(256), np.zeros(256), np.zeros(256)
+            self.blue_cum_vector, self.green_cum_vector, self.red_cum_vector = np.zeros(256), np.zeros(256), np.zeros(256)
+
             # self.__original_image_fourier_components = np.fft.fft2(self.__original_image)
             # self.__original_image_fourier_components = np.fft.fftshift(self.__original_image_fourier_components)
             # self.__modified_image_fourier_components = deepcopy(self.__original_image)
@@ -42,18 +46,51 @@ class Image():
     def modified_image(self, value):
         self.__modified_image = value
     
-    def get_histogram(self, index): # implementation from scratch 
-        '''
-        index: 0 or 1, 0 represents the histogram of the original image and 1 represents the histogram of the modified image
-        note, you need to check if the output is 3 arrays or only one because of the rgb and the gray scale images 
-        '''
-        image_to_calculate = None
-        if index == 0: # original image histograms
-            image_to_calculate = self.__original_image
-        elif index == 1:
-            image_to_calculate = self.__modified_image
-        # need to be completed
-        pass
+    def calculate_sigle_dim_historgram(self, single_dim_image_mat, histo_vector, cumulative_vector):
+        total_num_of_pixel = 0
+        print(single_dim_image_mat.shape)
+        for row in range(len(single_dim_image_mat)):
+            for col in range(len(single_dim_image_mat[row])):
+                histo_vector[int(single_dim_image_mat[row][col])] += 1
+                total_num_of_pixel += 1
+
+        cumulative_sum = 0
+        for i, val in enumerate(histo_vector):
+            cumulative_sum += val
+            cumulative_vector[i] = float(cumulative_sum / total_num_of_pixel)
+
+    def calculate_Rgb_histograms(self):
+        self.reset_histo_vector()
+        blue_channel, green_channel , red_channel = cv2.split(self.__modified_image)
+
+        self.calculate_sigle_dim_historgram(blue_channel, self.blue_histo_vector, self.blue_cum_vector)
+        self.calculate_sigle_dim_historgram(green_channel, self.green_histo_vector, self.green_cum_vector)
+        self.calculate_sigle_dim_historgram(red_channel, self.red_histo_vector, self.red_cum_vector)
+
+    def reset_histo_vector(self):
+        self.gray_histo_vector = np.zeros(256)
+        self.red_histo_vector = np.zeros(256)
+        self.green_histo_vector = np.zeros(256)
+        self.blue_histo_vector = np.zeros(256)
+        self.red_cum_vector = np.zeros(256)
+        self.blue_cum_vector = np.zeros(256)
+        self.green_cum_vector = np.zeros(256)
+    def get_histogram(self):
+        self.reset_histo_vector()
+        if len(self.__modified_image.shape) == 2:
+            self.calculate_sigle_dim_historgram(self.__modified_image, self.gray_histo_vector, self.gray_cum_vector)
+        else:
+            self.calculate_Rgb_histograms()
+    def equalize_image(self):
+        if  len(self.__modified_image.shape) != 2:
+            self.transfer_to_gray_scale()
+            self.get_histogram()
+        gray_cum_vector_normalized = np.round(self.gray_cum_vector * 255).astype(np.uint8)
+        for row in range(self.__modified_image.shape[0]):
+            for col in range(self.__modified_image.shape[1]):
+                old_intensity = self.__modified_image[row, col]
+                new_intensity = gray_cum_vector_normalized[old_intensity]
+                self.__modified_image[row, col] = new_intensity
     
     # @property
     # def modified_image_fourier_components(self):

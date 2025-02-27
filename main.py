@@ -16,24 +16,25 @@ from enums.thresholdType import Threshold_type
 from enums.type import Type
 from classes.filter import Filters
 from classes.edgeDetector import Edge_detector
-
+from enums.graphType import GraphType
+from enums.colors import Color
 import cv2
 
 
-compile_qrc()
+# compile_qrc()
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         loadUi('main.ui', self)
-        self.r_histogram_viewer = Viewer()
-        self.g_histogram_viewer = Viewer()
-        self.b_histogram_viewer = Viewer()
-        self.gray_histogram_viewer = Viewer()
-        self.r_cdf_viewer = Viewer()
-        self.g_cdf_viewer = Viewer()
-        self.b_cdf_viewer = Viewer()
-        self.gray_cdf_viewer = Viewer()
+        self.r_histogram_viewer = Viewer(Color.R, GraphType.HISTO)
+        self.g_histogram_viewer = Viewer(Color.G, GraphType.HISTO)
+        self.b_histogram_viewer = Viewer(Color.B, GraphType.HISTO)
+        self.gray_histogram_viewer = Viewer(Color.GRAY, GraphType.HISTO)
+        self.r_cdf_viewer = Viewer(Color.R, GraphType.CDF)
+        self.g_cdf_viewer = Viewer(Color.G, GraphType.CDF)
+        self.b_cdf_viewer = Viewer(Color.B, GraphType.CDF)
+        self.gray_cdf_viewer = Viewer(Color.GRAY, GraphType.CDF)
         
         self.gray_histogram_widget = self.findChild(QWidget, "widget_17")
         self.gray_histogram_layout = self.gray_histogram_widget.layout()
@@ -143,12 +144,15 @@ class MainWindow(QMainWindow):
         
         self.hybrid_mode_button = self.findChild(QPushButton, "hybrid_button")
         self.hybrid_mode_button.clicked.connect(self.on_hybrid_mode_button_clicked)
-        
+
         self.show_histogram_button = self.findChild(QPushButton, "histograms_button")
         self.show_histogram_button.clicked.connect(self.on_show_histogram_button_clicked)
-        
+
         self.back_from_histogram_button = self.findChild(QPushButton, "back_histo_button")
         self.back_from_histogram_button.clicked.connect(self.on_back_from_histogram_button_clicked)
+
+        self.equalize_image_button = self.findChild(QPushButton, "equalizer_button")
+        self.equalize_image_button.clicked.connect(self.on_equalized_button_cliked)
         
         
     def browse_image(self):
@@ -162,6 +166,16 @@ class MainWindow(QMainWindow):
                 image = Image(temp_image)
                 self.input_image_viewer.current_image = image 
                 self.output_image_viewer.current_image = image
+                # make the viewer track the output image
+                self.r_histogram_viewer.output_image = image
+                self.r_cdf_viewer.output_image = image
+                self.g_histogram_viewer.output_image = image
+                self.g_cdf_viewer.output_image = image
+                self.b_histogram_viewer.output_image = image
+                self.b_cdf_viewer.output_image = image
+                self.gray_histogram_viewer.output_image = image
+                self.gray_cdf_viewer.output_image = image
+                # update
                 self.controller.update()
 
     def on_gray_scale_button_clicked(self):
@@ -174,24 +188,27 @@ class MainWindow(QMainWindow):
             self.main_stacked_widget.setCurrentIndex(page_index)
             
     def on_show_histogram_button_clicked(self):
-        page_index =  self.main_stacked_widget.indexOf(self.findChild(QWidget, "page_3"))
+        page_index = self.main_stacked_widget.indexOf(self.findChild(QWidget, "page_3"))
         if page_index != -1:
             self.main_stacked_widget.setCurrentIndex(page_index)
             # conditions for gray scale or rgb
-            flag = Type.GRAY
-            if flag == Type.RGB:
-                histogram_index = self.histogram_stacked_widget.indexOf(self.findChild(QWidget, "page_4"))
-            else:
+
+            if len(self.output_image_viewer.current_image.modified_image.shape )==2:
                 histogram_index = self.histogram_stacked_widget.indexOf(self.findChild(QWidget, "page_5"))
-            
+            else:
+                histogram_index = self.histogram_stacked_widget.indexOf(self.findChild(QWidget, "page_4"))
+
             if histogram_index != -1:
                 self.histogram_stacked_widget.setCurrentIndex(histogram_index)
+
     
     def on_back_from_histogram_button_clicked(self):
         page_index = self.main_stacked_widget.indexOf(self.findChild(QWidget, "page"))
         if page_index != -1:
             self.main_stacked_widget.setCurrentIndex(page_index)
-
+    def on_equalized_button_cliked(self):
+        self.output_image_viewer.current_image.equalize_image()
+        self.controller.update()
     # def on_threshold_selected(self):
     #     # never calling it twice
     #     if self.sender().isChecked():
