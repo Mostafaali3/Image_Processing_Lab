@@ -48,6 +48,10 @@ class Image():
     def modified_image(self):
         return self.__modified_image
 
+    @property
+    def image_fourier_components(self):
+        return self.__image_fourier_components
+    
     @modified_image.setter
     def modified_image(self, value):
         self.__modified_image = value
@@ -98,9 +102,6 @@ class Image():
                 new_intensity = gray_cum_vector_normalized[old_intensity]
                 self.__modified_image[row, col] = new_intensity
 
-    @property
-    def image_fourier_components(self):
-        return self.__image_fourier_components
 
     # @property
     # def original_image_fourier_components(self):
@@ -115,6 +116,9 @@ class Image():
         imported_image_gray_scale = cv2.cvtColor(self.__original_image, cv2.COLOR_BGR2GRAY)
         self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
         print(f"modified img shape {self.__modified_image.shape}")
+        
+    def reset(self):
+        self.__modified_image = deepcopy(self.__original_image)
 
     def mix(self, other):
         if isinstance(self, other):
