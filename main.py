@@ -71,7 +71,7 @@ class MainWindow(QMainWindow):
         self.b_cdf_layout.addWidget(self.b_cdf_viewer)
         
         self.main_page_browse_button = self.findChild(QPushButton, "browse")
-        self.main_page_browse_button.clicked.connect(self.browse_image)
+        self.main_page_browse_button.clicked.connect(lambda : self.browse_image(Mode.REGULAR))
         
         self.input_image_viewer_layout = self.findChild(QVBoxLayout, "input")
         self.input_image_viewer = ImageViewer()
@@ -178,6 +178,14 @@ class MainWindow(QMainWindow):
         
         self.low_high_filters_slider_1 = self.findChild(QSlider, "pass_filter_1")
         self.low_high_filters_slider_1.setRange(0,1)
+        
+        self.filtering_slider_1 = self.findChild(QSlider, "verticalSlider_3")
+        self.filtering_slider_1.setRange(0,10)
+        self.filtering_slider_1.valueChanged.connect(lambda x : self.on_filter_slider_value_changed(x,1))
+        
+        self.filtering_slider_2 = self.findChild(QSlider, "value_slider_2")
+        self.filtering_slider_2.setRange(0,10)
+        self.filtering_slider_2.valueChanged.connect(lambda x : self.on_filter_slider_value_changed(x,2))
         
         self.low_high_filters_slider_2 = self.findChild(QSlider, "pass_filter_2")
         self.low_high_filters_slider_2.setRange(0,1)
@@ -294,6 +302,25 @@ class MainWindow(QMainWindow):
     def on_reset_button_clicked(self):
         self.output_image_viewer.current_image.reset()
         self.controller.update()
+        
+    def get_filter_slider_value(self, index):
+        values = [x/10 for x in range(11)]
+        return values[index]
+    
+    def on_filter_slider_value_changed(self, index, slider_number):
+        current_filtering_ratio = self.get_filter_slider_value(index)
+        # print(slider_number)
+        if slider_number == 1:
+            if self.low_high_filters_slider_1.value() == 0: #low
+                print(0)
+            else:
+                print(1)
+        else:
+            if self.low_high_filters_slider_2.value() == 0: #low
+                print(0)
+            else:
+                print(1)
+            
 
 
 if __name__ == '__main__':
