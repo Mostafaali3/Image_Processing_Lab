@@ -40,6 +40,7 @@ class Image():
     @property
     def modified_image(self):
         return self.__modified_image
+    
 
     @modified_image.setter
     def modified_image(self, value):
@@ -58,9 +59,9 @@ class Image():
         # need to be completed
         pass
     
-    # @property
-    # def modified_image_fourier_components(self):
-    #     return self.__modified_image_fourier_components
+    @property
+    def image_fourier_components(self):
+        return self.__image_fourier_components
     
     # @property
     # def original_image_fourier_components(self):
