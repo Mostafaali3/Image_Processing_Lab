@@ -5,11 +5,11 @@ from enums.type import Type
 
 
 class Image():
-    def __init__(self, data = None):
+    def __init__(self, data=None):
         self.__original_image = data
         self.__modified_image = deepcopy(data)
         self.is_loaded = False
-        
+
         self.current_type = Type.NONE
         if data is not None:
             self.is_loaded = True
@@ -17,27 +17,33 @@ class Image():
                 self.current_type = Type.GRAY
                 imported_image_gray_scale = cv2.cvtColor(data, cv2.COLOR_BGR2GRAY)
                 self.__original_image = np.array(imported_image_gray_scale, dtype=np.uint8)
-            else:      
+            else:
                 self.current_type = Type.RGB
                 image_rgb = cv2.cvtColor(data, cv2.COLOR_BGR2RGB)
                 self.__original_image = image_rgb
                 self.r_channel, self.g_channel, self.b_channel = cv2.split(self.__original_image)
             self.__modified_image = deepcopy(self.__original_image)
+            self.transfer_to_gray_scale()
+
+            self.__image_fourier_components = np.fft.fft2(self.__original_image)
+            self.__image_fourier_components = np.fft.fftshift(self.__image_fourier_components)
+
             self.original_image_distributions = []
             self.modified_image_distributions = []
+
             self.gray_histo_vector = np.zeros(256)
             self.gray_cum_vector = np.zeros(256)
-            self.blue_histo_vector, self.green_histo_vector, self.red_histo_vector = np.zeros(256), np.zeros(256), np.zeros(256)
-            self.blue_cum_vector, self.green_cum_vector, self.red_cum_vector = np.zeros(256), np.zeros(256), np.zeros(256)
+            self.blue_histo_vector, self.green_histo_vector, self.red_histo_vector = np.zeros(256), np.zeros(
+                256), np.zeros(256)
+            self.blue_cum_vector, self.green_cum_vector, self.red_cum_vector = np.zeros(256), np.zeros(256), np.zeros(
+                256)
 
-            # self.__original_image_fourier_components = np.fft.fft2(self.__original_image)
-            # self.__original_image_fourier_components = np.fft.fftshift(self.__original_image_fourier_components)
             # self.__modified_image_fourier_components = deepcopy(self.__original_image)
 
     @property
     def original_image(self):
         return self.__original_image
-    
+
     @property
     def modified_image(self):
         return self.__modified_image
@@ -45,7 +51,7 @@ class Image():
     @modified_image.setter
     def modified_image(self, value):
         self.__modified_image = value
-    
+
     def calculate_sigle_dim_historgram(self, single_dim_image_mat, histo_vector, cumulative_vector):
         total_num_of_pixel = 0
         print(single_dim_image_mat.shape)
@@ -91,25 +97,25 @@ class Image():
                 old_intensity = self.__modified_image[row, col]
                 new_intensity = gray_cum_vector_normalized[old_intensity]
                 self.__modified_image[row, col] = new_intensity
-    
-    # @property
-    # def modified_image_fourier_components(self):
-    #     return self.__modified_image_fourier_components
-    
+
+    @property
+    def image_fourier_components(self):
+        return self.__image_fourier_components
+
     # @property
     # def original_image_fourier_components(self):
     #     return self.__original_image_fourier_components
-    
+
     def transfer_to_gray_scale(self):
         # if self.__modified_image is not None:
         #     imported_image_gray_scale = np.dot(self.__modified_image[...,:3], [0.2989, 0.570, 0.1140])
         #     self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
         #
         #
-        imported_image_gray_scale = cv2.cvtColor(self.__original_image , cv2.COLOR_BGR2GRAY)
+        imported_image_gray_scale = cv2.cvtColor(self.__original_image, cv2.COLOR_BGR2GRAY)
         self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
         print(f"modified img shape {self.__modified_image.shape}")
-    
+
     def mix(self, other):
         if isinstance(self, other):
             pass
