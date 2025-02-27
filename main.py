@@ -19,6 +19,7 @@ from classes.filter import Filters
 from classes.edgeDetector import Edge_detector
 from enums.graphType import GraphType
 from enums.colors import Color
+from enums.mode import Mode
 import cv2
 
 
@@ -149,7 +150,8 @@ class MainWindow(QMainWindow):
 
         self.controller = Controller(self.r_histogram_viewer,self.g_histogram_viewer,self.b_histogram_viewer,
                                      self.gray_histogram_viewer, self.r_cdf_viewer, self.g_cdf_viewer, self.b_cdf_viewer,
-                                     self.gray_cdf_viewer, self.input_image_viewer, self.output_image_viewer )
+                                     self.gray_cdf_viewer, self.input_image_viewer, self.output_image_viewer, self.input_hybrid_image_viewer_1, self.input_hybrid_image_viewer_2
+                                     ,self.filtered_hybrid_image_viewer_1, self.filtered_hybrid_image_viewer_2)
         
         self.main_stacked_widget = self.findChild(QStackedWidget, "stackedWidget")
         self.histogram_stacked_widget = self.findChild(QStackedWidget, "stackedWidget_2")
@@ -166,29 +168,54 @@ class MainWindow(QMainWindow):
         self.equalize_image_button = self.findChild(QPushButton, "equalizer_button")
         self.equalize_image_button.clicked.connect(self.on_equalized_button_cliked)
         
+        self.reset_button = self.findChild(QPushButton, "reset_button")
+        self.reset_button.clicked.connect(self.on_reset_button_clicked)
         
-    def browse_image(self):
+        self.browse_hybrid_image_1_button = self.findChild(QPushButton, "browse_1")
+        self.browse_hybrid_image_1_button.clicked.connect(lambda : self.browse_image(Mode.HYBRID, 1))
+        
+        self.browse_hybrid_image_2_button = self.findChild(QPushButton, "browse_2")
+        self.browse_hybrid_image_2_button.clicked.connect(lambda : self.browse_image(Mode.HYBRID, 2))
+        
+        self.low_high_filters_slider_1 = self.findChild(QSlider, "pass_filter_1")
+        self.low_high_filters_slider_1.setRange(0,1)
+        
+        self.low_high_filters_slider_2 = self.findChild(QSlider, "pass_filter_2")
+        self.low_high_filters_slider_2.setRange(0,1)
+        
+    def browse_image(self, mode = Mode.REGULAR, viewer_index = 1):
         print("pushed")
         file_path, _ = QFileDialog.getOpenFileName(self, 'Open Image File', '', 'Image Files (*.jpeg *.jpg *.png *.bmp *.gif);;All Files (*)')
         
         if file_path:
             if file_path.endswith('.jpeg') or file_path.endswith('.jpg'):
                 temp_image = cv2.imread(file_path)
-                print(temp_image.shape[0],temp_image.shape[1],temp_image.shape[2])
                 image = Image(temp_image)
-                self.input_image_viewer.current_image = image 
-                self.output_image_viewer.current_image = image
-                # make the viewer track the output image
-                self.r_histogram_viewer.output_image = image
-                self.r_cdf_viewer.output_image = image
-                self.g_histogram_viewer.output_image = image
-                self.g_cdf_viewer.output_image = image
-                self.b_histogram_viewer.output_image = image
-                self.b_cdf_viewer.output_image = image
-                self.gray_histogram_viewer.output_image = image
-                self.gray_cdf_viewer.output_image = image
-                # update
-                self.controller.update()
+                
+                if mode == Mode.REGULAR:
+                    self.input_image_viewer.current_image = image 
+                    self.output_image_viewer.current_image = image
+                    # make the viewer track the output image
+                    self.r_histogram_viewer.output_image = image
+                    self.r_cdf_viewer.output_image = image
+                    self.g_histogram_viewer.output_image = image
+                    self.g_cdf_viewer.output_image = image
+                    self.b_histogram_viewer.output_image = image
+                    self.b_cdf_viewer.output_image = image
+                    self.gray_histogram_viewer.output_image = image
+                    self.gray_cdf_viewer.output_image = image
+                    # update
+                    self.controller.update()
+                else:
+                    image.transfer_to_gray_scale()
+                    if viewer_index == 1:
+                        self.input_hybrid_image_viewer_1.current_image = image
+                        self.filtered_hybrid_image_viewer_1.current_image = image
+                    else: 
+                        self.input_hybrid_image_viewer_2.current_image = image
+                        self.filtered_hybrid_image_viewer_2.current_image = image
+                    self.controller.update_hybrid()
+                        
 
     def on_gray_scale_button_clicked(self):
         self.output_image_viewer.current_image.transfer_to_gray_scale()
@@ -390,6 +417,10 @@ class MainWindow(QMainWindow):
     def on_detector_type_change(self):
         detector_type = self.edge_detectors_comboBox.currentText()
         self.edge_detector.apply_edge_detectors(detector_type)
+        self.controller.update()
+        
+    def on_reset_button_clicked(self):
+        self.output_image_viewer.current_image.reset()
         self.controller.update()
 
 

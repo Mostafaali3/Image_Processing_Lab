@@ -34,8 +34,9 @@ class Filters():
 
         # creating padding (fake pixels to handle edges)
         pad_size = kernel_size // 2
-        padded_image = cv2.copyMakeBorder(self.output_image_viewer.current_image.modified_image, pad_size, pad_size, pad_size, pad_size, cv2.BORDER_REFLECT)
-        # print(f"hena padded_img {padded_image}")
+        padded_image = np.pad(self.output_image_viewer.current_image.modified_image,
+                              ((pad_size, pad_size), (pad_size, pad_size)),
+                              mode='reflect')  # print(f"hena padded_img {padded_image}")
 
         for i in range(pad_size, image_height + pad_size):
             for j in range(pad_size, image_width + pad_size):
@@ -95,8 +96,9 @@ class Filters():
         kernel = self.create_gaussian_kernel(kernel_size)
         # creating padding (fake pixels to handle edges)
         pad_size = kernel_size // 2
-        padded_image = cv2.copyMakeBorder(self.output_image_viewer.current_image.modified_image, pad_size, pad_size, pad_size, pad_size, cv2.BORDER_REFLECT)
-        # print(f"hena padded_img {padded_image}")
+        padded_image = np.pad(self.output_image_viewer.current_image.modified_image,
+                              ((pad_size, pad_size), (pad_size, pad_size)),
+                              mode='reflect')  # print(f"hena padded_img {padded_image}")
 
         for i in range(pad_size, image_height + pad_size):
             for j in range(pad_size, image_width + pad_size):
@@ -108,6 +110,44 @@ class Filters():
         filtered_img = filtered_img.astype(np.uint8)
         print(f"hena filtered_img {filtered_img}")
         self.output_image_viewer.current_image.modified_image = filtered_img
+
+    def apply_low_pass_filter(self, region_factor):
+        if self.output_image_viewer.current_image is not None:
+            low_pass_mat = self.create_fourier_filter_mask(region_factor)
+            filtered_fourier = self.output_image_viewer.current_image.image_fourier_components* low_pass_mat
+            filtered_img = np.fft.ifftshift(filtered_fourier)
+            filtered_img = np.fft.ifft2(filtered_img)
+            filtered_img = np.abs(filtered_img).astype(np.uint8)
+
+            return filtered_img
+
+
+    def apply_high_pass_filter(self, region_factor):
+        if self.output_image_viewer.current_image is not None:
+            high_pass_mat = 1 - self.create_fourier_filter_mask(region_factor)
+            filtered_fourier = self.output_image_viewer.current_image.image_fourier_components * high_pass_mat
+            filtered_img = np.fft.ifftshift(filtered_fourier)
+            filtered_img = np.fft.ifft2(filtered_img)
+            filtered_img = np.abs(filtered_img).astype(np.uint8)
+            return filtered_img
+
+    def create_fourier_filter_mask(self,region_factor):
+        rows, cols = self.output_image_viewer.current_image.image_fourier_components.shape
+        center_row, center_col = rows// 2, cols// 2
+        kernel = np.zeros((rows, cols), np.uint8)
+        # choosing the min between el height wl width --> thus the region will never exceed the pic
+        limiting_factor = min(center_row, center_col)
+        radius = region_factor * limiting_factor
+
+        for i in range(rows):
+            for j in range(cols):
+                dis = np.sqrt((i - center_row) ** 2 + (j - center_col) ** 2)
+                if dis <= radius:
+                    kernel[i, j] = 1
+
+        return kernel
+
+
 
 
 
