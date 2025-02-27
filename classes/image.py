@@ -23,7 +23,7 @@ class Image():
                 self.__original_image = image_rgb
                 self.r_channel, self.g_channel, self.b_channel = cv2.split(self.__original_image)
             self.__modified_image = deepcopy(self.__original_image)
-            self.transfer_to_gray_scale()
+            #self.transfer_to_gray_scale()
 
             self.__image_fourier_components = np.fft.fft2(self.__original_image)
             self.__image_fourier_components = np.fft.fftshift(self.__image_fourier_components)
