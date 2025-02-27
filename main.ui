@@ -291,12 +291,15 @@ border:none;</string>
                    <property name="topMargin">
                     <number>10</number>
                    </property>
+                   <property name="rightMargin">
+                    <number>5</number>
+                   </property>
                    <item>
                     <widget class="QComboBox" name="noise_combobox">
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
-                       <height>30</height>
+                       <height>40</height>
                       </size>
                      </property>
                      <property name="styleSheet">
@@ -330,7 +333,7 @@ QComboBox::drop-down {
 
 /* Drop-down arrow */
 QComboBox::down-arrow {
-    image: url(Deliverables/down.png); /* Ensure file path is correct */
+    image: url(icons_setup/icons/down.png); /* Ensure file path is correct */
     width: 12px;
     height: 12px;
 }
@@ -399,7 +402,7 @@ border:none;</string>
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
-                       <height>30</height>
+                       <height>40</height>
                       </size>
                      </property>
                      <property name="styleSheet">
@@ -433,7 +436,7 @@ QComboBox::drop-down {
 
 /* Drop-down arrow */
 QComboBox::down-arrow {
-    image: url(Deliverables/down.png); /* Ensure file path is correct */
+    image: url(icons_setup/icons/down.png); /* Ensure file path is correct */
     width: 12px;
     height: 12px;
 }
@@ -521,7 +524,7 @@ border:none;</string>
                      <property name="maximumSize">
                       <size>
                        <width>16777215</width>
-                       <height>30</height>
+                       <height>40</height>
                       </size>
                      </property>
                      <property name="styleSheet">
@@ -555,7 +558,7 @@ QComboBox::drop-down {
 
 /* Drop-down arrow */
 QComboBox::down-arrow {
-    image: url(Deliverables/down.png); /* Ensure file path is correct */
+    image: url(icons_setup/icons/down.png); /* Ensure file path is correct */
     width: 12px;
     height: 12px;
 }
@@ -925,6 +928,12 @@ font-weight:500;</string>
                    <layout class="QVBoxLayout" name="verticalLayout_13">
                     <item>
                      <widget class="QWidget" name="widget_7" native="true">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>40</height>
+                       </size>
+                      </property>
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
@@ -980,6 +989,12 @@ border-radius: 5px;</string>
                     </item>
                     <item>
                      <widget class="QWidget" name="widget_5" native="true">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>150</height>
+                       </size>
+                      </property>
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
@@ -1000,14 +1015,57 @@ border-radius: 5px;</string>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_25">
                     <item>
-                     <widget class="QWidget" name="widget_8" native="true">
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>50</height>
-                       </size>
+                     <layout class="QHBoxLayout" name="horizontalLayout_12">
+                      <property name="leftMargin">
+                       <number>0</number>
                       </property>
-                     </widget>
+                      <item>
+                       <widget class="QLabel" name="label_27">
+                        <property name="text">
+                         <string/>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="reset_button">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>40</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>50</width>
+                          <height>16777215</height>
+                         </size>
+                        </property>
+                        <property name="layoutDirection">
+                         <enum>Qt::LeftToRight</enum>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">background-color:#006d77;
+border-radius: 5px;
+color:#edf6f9;
+font-size: 16px;
+font-weight:500;</string>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="icon">
+                         <iconset>
+                          <normaloff>icons_setup/icons/reset.png</normaloff>icons_setup/icons/reset.png</iconset>
+                        </property>
+                        <property name="iconSize">
+                         <size>
+                          <width>30</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
                      <widget class="QLabel" name="label_12">
@@ -1056,6 +1114,12 @@ border-radius: 5px;</string>
                     </item>
                     <item>
                      <widget class="QWidget" name="widget_6" native="true">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>150</height>
+                       </size>
+                      </property>
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>

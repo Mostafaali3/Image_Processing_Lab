@@ -12,6 +12,7 @@ from classes.imageViewer import ImageViewer
 from enums.viewerType import ViewerType
 from classes.controller import Controller
 from classes.thresholder import Thresholder
+from classes.noiser import Noiser
 from enums.thresholdType import Threshold_type
 from classes.filter import Filters
 from classes.edgeDetector import Edge_detector
@@ -95,10 +96,20 @@ class MainWindow(QMainWindow):
         self.filters_comboBox.addItem("Median Filter")
         self.filters_comboBox.addItem("Gaussiann Filter")
         self.filter = Filters(self.output_image_viewer)
+        self.filters_comboBox.model().item(0).setFlags(Qt.NoItemFlags)
         self.filters_comboBox.currentIndexChanged.connect(self.on_filter_type_change)
 
+        self.noise_combobox = self.findChild(QComboBox, "noise_combobox")
+        self.noise_combobox.addItem("Select noise type")
+        self.noise_combobox.addItem("Salt & Pepper noise")
+        self.noise_combobox.addItem("Uniform noise")
+        self.noise_combobox.addItem("Gaussian noise")
+        self.noise_combobox.model().item(0).setFlags(Qt.NoItemFlags)
+        self.noise = Noiser(self.output_image_viewer)
+        self.noise_combobox.currentIndexChanged.connect(self.on_filter_type_change)
+
         self.edge_detectors_comboBox = self.findChild(QComboBox, "mask_combobox")
-        self.edge_detectors_comboBox.addItem("Edge detector type")
+        self.edge_detectors_comboBox.addItem("Select edge detector type")
         self.edge_detectors_comboBox.addItem("Sobel detector")
         self.edge_detectors_comboBox.addItem("Roberts detector")
         self.edge_detectors_comboBox.addItem("Prewitt detector")
@@ -160,6 +171,10 @@ class MainWindow(QMainWindow):
         self.thresholder.apply_thresholding("GLOBAL")
         self.controller.update()
 
+    def on_noise_type_change(self):
+        noise_type = self.noise_combobox.currentText()
+        if noise_type == "Salt & Pepper noise":
+            pass
     def on_filter_type_change(self):
         filter_type = self.filters_comboBox.currentText()
         self.filter.apply_filters(filter_type)
