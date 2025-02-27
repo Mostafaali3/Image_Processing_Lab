@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QFrame, QVBoxLayout, QSlider, QComboBox, QPushButton, \
-    QStackedWidget, QWidget, QFileDialog, QRadioButton
+    QStackedWidget, QWidget, QFileDialog, QRadioButton, QDialog, QLineEdit, QHBoxLayout
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt
@@ -135,7 +135,7 @@ class MainWindow(QMainWindow):
         self.noise_combobox.addItem("Gaussian noise")
         self.noise_combobox.model().item(0).setFlags(Qt.NoItemFlags)
         self.noise = Noiser(self.output_image_viewer)
-        self.noise_combobox.currentIndexChanged.connect(self.on_filter_type_change)
+        self.noise_combobox.currentIndexChanged.connect(self.on_noise_type_change)
 
         self.edge_detectors_comboBox = self.findChild(QComboBox, "mask_combobox")
         self.edge_detectors_comboBox.addItem("Select edge detector type")
@@ -144,6 +144,7 @@ class MainWindow(QMainWindow):
         self.edge_detectors_comboBox.addItem("Prewitt detector")
         self.edge_detectors_comboBox.addItem("Canny detector")
         self.edge_detector = Edge_detector(self.output_image_viewer)
+        self.edge_detectors_comboBox.model().item(0).setFlags(Qt.NoItemFlags)
         self.edge_detectors_comboBox.currentIndexChanged.connect(self.on_detector_type_change)
 
 
@@ -288,7 +289,134 @@ class MainWindow(QMainWindow):
     def on_noise_type_change(self):
         noise_type = self.noise_combobox.currentText()
         if noise_type == "Salt & Pepper noise":
-            pass
+            self.open_salt_and_pepper_pop_up_window()
+        elif noise_type == "Uniform noise":
+            self.open_uniform_pop_up_window()
+        elif noise_type == "Gaussian noise":
+            self.open_gaussian_pop_up_window()
+        self.controller.update()
+
+    def open_salt_and_pepper_pop_up_window(self):
+        popup = QDialog()
+        popup.setWindowTitle("Salt & Pepper Noise Parameters")
+        popup.setGeometry(700, 400, 300, 150)
+
+        layout = QVBoxLayout()
+
+        # Title Label
+        label = QLabel("Enter Salt & Pepper Noise Ratios")
+        label.setStyleSheet("font-weight:500")
+        layout.addWidget(label)
+
+        # Salt to pepper Ratio Input
+        salt_layout = QHBoxLayout()
+        salt_label = QLabel("Salt to pepper Ratio (0-1):")
+        self.salt_input = QLineEdit()
+        self.salt_input.setPlaceholderText("e.g. 0.1")
+        salt_layout.addWidget(salt_label)
+        salt_layout.addWidget(self.salt_input)
+        layout.addLayout(salt_layout)
+
+        # Apply Button
+        apply_button = QPushButton("Apply")
+        apply_button.clicked.connect(lambda: self.apply_salt_and_pepper_noise(popup))
+        layout.addWidget(apply_button)
+
+        popup.setLayout(layout)
+        popup.exec_()
+
+    def apply_salt_and_pepper_noise(self, popup):
+        popup.close()
+        self.noise.apply_salt_and_pepper_noise(self.salt_input)
+
+
+    def open_uniform_pop_up_window(self):
+        popup = QDialog()
+        popup.setWindowTitle("Uniform Noise Parameters")
+        popup.setGeometry(700, 400, 300, 150)
+
+        layout = QVBoxLayout()
+
+        # Title Label
+        label = QLabel("Choose noise Intensity")
+        label.setStyleSheet("font-weight:500")
+        layout.addWidget(label)
+
+        # Uniform Intensity Ratio
+        uniform_layout = QHBoxLayout()
+        uniform_noise_label = QLabel("Noise Intensity")
+        self.uniform_noise_intensity = QLineEdit()
+        self.uniform_noise_intensity.setPlaceholderText("e.g. 1")
+        uniform_layout.addWidget(uniform_noise_label)
+        uniform_layout.addWidget(self.uniform_noise_intensity)
+        layout.addLayout(uniform_layout)
+
+        # Apply Button
+        apply_button = QPushButton("Apply")
+        apply_button.clicked.connect(lambda: self.apply_uniform_noise(popup))
+        layout.addWidget(apply_button)
+
+        popup.setLayout(layout)
+        popup.exec_()
+
+    def apply_uniform_noise(self,popup):
+        popup.close()
+        self.noise.apply_salt_and_pepper_noise(self.uniform_noise_intensity)
+
+    def open_gaussian_pop_up_window(self):
+        popup = QDialog()
+        popup.setWindowTitle("Gaussian Noise Parameters")
+        popup.setGeometry(700, 400, 300, 200)
+
+        layout = QVBoxLayout()
+
+        # Title Label
+        label = QLabel("Choose gaussian parameters")
+        label.setStyleSheet("font-weight:500")
+        layout.addWidget(label)
+
+        # Gaussian Mean
+        gaussian_mean_layout = QHBoxLayout()
+        gaussian_mean_label = QLabel("Gaussian Mean:")
+        self.gaussian_mean = QLineEdit()
+        self.gaussian_mean.setPlaceholderText("e.g. 10")
+        gaussian_mean_layout.addWidget(gaussian_mean_label)
+        gaussian_mean_layout.addWidget(self.gaussian_mean)
+        layout.addLayout(gaussian_mean_layout)
+
+        # Gaussian ST
+        gaussian_st_layout = QHBoxLayout()
+        gaussian_st_label = QLabel("Gaussian st:")
+        self.gaussian_st = QLineEdit()
+        self.gaussian_st.setPlaceholderText("e.g. 1")
+        gaussian_st_layout.addWidget(gaussian_st_label)
+        gaussian_st_layout.addWidget(self.gaussian_st)
+        layout.addLayout(gaussian_st_layout)
+
+        # Gaussian Intensity Ratio
+        gaussian_layout = QHBoxLayout()
+        gaussian_noise_label = QLabel("Noise Intensity")
+        self.gaussian_noise_intensity = QLineEdit()
+        self.gaussian_noise_intensity.setPlaceholderText("e.g. 1")
+        gaussian_layout.addWidget(gaussian_noise_label)
+        gaussian_layout.addWidget(self.gaussian_noise_intensity)
+        layout.addLayout(gaussian_layout)
+
+
+        # Apply Button
+        apply_button = QPushButton("Apply")
+        apply_button.clicked.connect(lambda: self.apply_gaussian_noise(popup))
+        layout.addWidget(apply_button)
+
+        popup.setLayout(layout)
+        popup.exec_()
+
+    def apply_gaussian_noise(self,popup):
+        popup.close()
+        self.noise.apply_gaussian_noise(self.gaussian_mean, self.gaussian_st, self.gaussian_noise_intensity)
+
+
+
     def on_filter_type_change(self):
         filter_type = self.filters_comboBox.currentText()
         self.filter.apply_filters(filter_type)
