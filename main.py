@@ -196,6 +196,7 @@ class MainWindow(QMainWindow):
         
         self.low_high_filters_slider_2 = self.findChild(QSlider, "pass_filter_2")
         self.low_high_filters_slider_2.setRange(0,1)
+        # fix
         
     def browse_image(self, mode = Mode.REGULAR, viewer_index = 1):
         print("pushed")

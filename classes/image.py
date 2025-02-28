@@ -10,7 +10,7 @@ class Image():
         self.__modified_image = deepcopy(data)
         self.is_loaded = False
 
-        self.current_type = Type.NONE
+        self.current_type = Type.NONE #fix 
         if data is not None:
             self.is_loaded = True
             if len(self.__original_image.shape) == 2:

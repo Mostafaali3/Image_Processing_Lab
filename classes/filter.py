@@ -148,7 +148,7 @@ class Filters():
             current_output_viewer_to_process.current_image.modified_image = filtered_img
             # return filtered_img
 
-    def create_fourier_filter_mask(self,region_factor, viewer_number=None):
+    def create_fourier_filter_mask(self,region_factor, viewer_number=None): #fix
         if viewer_number == 1:
             current_output_viewer_to_process = self.filtered_hybrid_image_viewer_1
         elif viewer_number == 2:
