@@ -104,6 +104,31 @@ class Image():
                 new_intensity = gray_cum_vector_normalized[old_intensity]
                 self.__modified_image[row, col] = new_intensity
 
+    def normalize_image(self):
+        self.transfer_to_gray_scale()
+        min_pixel = self.__modified_image[0,0]
+        max_pixel = 0
+        for row in range(self.__modified_image.shape[0]):
+            for col in range(self.__modified_image.shape[1]):
+                if self.__modified_image[row, col] <= min_pixel:
+                    min_pixel = self.__modified_image[row, col]
+                elif self.__modified_image[row, col] >= max_pixel:
+                    max_pixel = self.__modified_image[row, col]
+
+        if max_pixel == min_pixel:
+            print ("Normalization can't be done")
+            return
+
+        self.__modified_image = self.__modified_image.astype(np.float32)
+        # Normalization Formula
+        self.__modified_image = 255 * (self.__modified_image - min_pixel) / (max_pixel - min_pixel)
+        # Convert Back to uint8
+        self.__modified_image = np.clip(self.__modified_image, 0, 255).astype(np.uint8)
+        # for row in range(self.__modified_image.shape[0]):
+        #     for col in range(self.__modified_image.shape[1]):
+        #         self.__modified_image[row, col] = float( 255 * (self.__modified_image[row, col] - min_pixel) / (max_pixel - min_pixel))
+        #
+        # self.modified_image = self.__modified_image.astype(np.uint8)
 
     # @property
     # def original_image_fourier_components(self):
@@ -115,8 +140,8 @@ class Image():
         #     self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
         #
         #
-        if len(self.__original_image.shape) != 2:
-            imported_image_gray_scale = cv2.cvtColor(self.__original_image, cv2.COLOR_BGR2GRAY)
+        if len(self.__modified_image.shape) != 2:
+            imported_image_gray_scale = cv2.cvtColor(self.__modified_image, cv2.COLOR_BGR2GRAY)
             self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
             print(f"modified img shape {self.__modified_image.shape}")
         

@@ -16,6 +16,7 @@ from classes.noiser import Noiser
 from enums.thresholdType import Threshold_type
 from enums.type import Type
 from classes.filter import Filters
+from classes.noiser import Noiser
 from classes.edgeDetector import Edge_detector
 from enums.graphType import GraphType
 from enums.colors import Color
@@ -136,7 +137,6 @@ class MainWindow(QMainWindow):
         self.noise_combobox.addItem("Salt & Pepper noise")
         self.noise_combobox.addItem("Uniform noise")
         self.noise_combobox.addItem("Gaussian noise")
-        self.noise_combobox.model().item(0).setFlags(Qt.NoItemFlags)
         self.noise = Noiser(self.output_image_viewer)
         self.noise_combobox.currentIndexChanged.connect(self.on_noise_type_change)
 
@@ -147,7 +147,6 @@ class MainWindow(QMainWindow):
         self.edge_detectors_comboBox.addItem("Prewitt detector")
         self.edge_detectors_comboBox.addItem("Canny detector")
         self.edge_detector = Edge_detector(self.output_image_viewer)
-        self.edge_detectors_comboBox.model().item(0).setFlags(Qt.NoItemFlags)
         self.edge_detectors_comboBox.currentIndexChanged.connect(self.on_detector_type_change)
 
 
@@ -173,6 +172,9 @@ class MainWindow(QMainWindow):
 
         self.equalize_image_button = self.findChild(QPushButton, "equalizer_button")
         self.equalize_image_button.clicked.connect(self.on_equalized_button_cliked)
+
+        self.normalize_image_button = self.findChild(QPushButton, "normalizer_button")
+        self.normalize_image_button.clicked.connect(self.on_normalize_button_clicked)
         
         self.reset_button = self.findChild(QPushButton, "reset_button")
         self.reset_button.clicked.connect(self.on_reset_button_clicked)
@@ -277,6 +279,10 @@ class MainWindow(QMainWindow):
     #             self.thresholder.apply_global_thresholding()
     #     self.controller.update()
 
+    def on_normalize_button_clicked(self):
+        self.output_image_viewer.current_image.normalize_image()
+        self.controller.update()
+
     def on_threshold_selected(self):
         # never calling it twice
         if self.sender().isChecked():
@@ -320,12 +326,20 @@ class MainWindow(QMainWindow):
 
         # Salt to pepper Ratio Input
         salt_layout = QHBoxLayout()
-        salt_label = QLabel("Salt to pepper Ratio (0-1):")
-        self.salt_input = QLineEdit()
-        self.salt_input.setPlaceholderText("e.g. 0.1")
+        salt_label = QLabel("Salt Ratio (0-1):")
+        self.salt_edit = QLineEdit()
+        self.salt_edit.setPlaceholderText("e.g. 0.1")
         salt_layout.addWidget(salt_label)
-        salt_layout.addWidget(self.salt_input)
+        salt_layout.addWidget(self.salt_edit)
         layout.addLayout(salt_layout)
+
+        pepper_layout = QHBoxLayout()
+        pepper_label = QLabel("Pepper Ratio (0-1):")
+        self.pepper_edit = QLineEdit()
+        self.pepper_edit.setPlaceholderText("e.g. 0.1")
+        pepper_layout.addWidget(pepper_label)
+        pepper_layout.addWidget(self.pepper_edit)
+        layout.addLayout(pepper_layout)
 
         # Apply Button
         apply_button = QPushButton("Apply")
@@ -336,8 +350,10 @@ class MainWindow(QMainWindow):
         popup.exec_()
 
     def apply_salt_and_pepper_noise(self, popup):
+        self.salt_input = float(self.salt_edit.text())
+        self.pepper_input = float(self.pepper_edit.text())
         popup.close()
-        self.noise.apply_salt_and_pepper_noise(self.salt_input)
+        self.noise.apply_salt_and_pepper_noise(self.salt_input, self.pepper_input)
 
 
     def open_uniform_pop_up_window(self):
@@ -355,10 +371,10 @@ class MainWindow(QMainWindow):
         # Uniform Intensity Ratio
         uniform_layout = QHBoxLayout()
         uniform_noise_label = QLabel("Noise Intensity")
-        self.uniform_noise_intensity = QLineEdit()
-        self.uniform_noise_intensity.setPlaceholderText("e.g. 1")
+        self.uniform_noise_intensity_edit = QLineEdit()
+        self.uniform_noise_intensity_edit.setPlaceholderText("e.g. 10")
         uniform_layout.addWidget(uniform_noise_label)
-        uniform_layout.addWidget(self.uniform_noise_intensity)
+        uniform_layout.addWidget(self.uniform_noise_intensity_edit)
         layout.addLayout(uniform_layout)
 
         # Apply Button
@@ -370,8 +386,9 @@ class MainWindow(QMainWindow):
         popup.exec_()
 
     def apply_uniform_noise(self,popup):
+        self.uniform_noise_intensity = int(self.uniform_noise_intensity_edit.text())
         popup.close()
-        self.noise.apply_salt_and_pepper_noise(self.uniform_noise_intensity)
+        self.noise.apply_uniform_noise(self.uniform_noise_intensity)
 
     def open_gaussian_pop_up_window(self):
         popup = QDialog()
@@ -388,29 +405,20 @@ class MainWindow(QMainWindow):
         # Gaussian Mean
         gaussian_mean_layout = QHBoxLayout()
         gaussian_mean_label = QLabel("Gaussian Mean:")
-        self.gaussian_mean = QLineEdit()
-        self.gaussian_mean.setPlaceholderText("e.g. 10")
+        self.gaussian_mean_edit = QLineEdit()
+        self.gaussian_mean_edit.setPlaceholderText("e.g. 10")
         gaussian_mean_layout.addWidget(gaussian_mean_label)
-        gaussian_mean_layout.addWidget(self.gaussian_mean)
+        gaussian_mean_layout.addWidget(self.gaussian_mean_edit)
         layout.addLayout(gaussian_mean_layout)
 
         # Gaussian ST
         gaussian_st_layout = QHBoxLayout()
         gaussian_st_label = QLabel("Gaussian st:")
-        self.gaussian_st = QLineEdit()
-        self.gaussian_st.setPlaceholderText("e.g. 1")
+        self.gaussian_st_edit = QLineEdit()
+        self.gaussian_st_edit.setPlaceholderText("e.g. 10")
         gaussian_st_layout.addWidget(gaussian_st_label)
-        gaussian_st_layout.addWidget(self.gaussian_st)
+        gaussian_st_layout.addWidget(self.gaussian_st_edit)
         layout.addLayout(gaussian_st_layout)
-
-        # Gaussian Intensity Ratio
-        gaussian_layout = QHBoxLayout()
-        gaussian_noise_label = QLabel("Noise Intensity")
-        self.gaussian_noise_intensity = QLineEdit()
-        self.gaussian_noise_intensity.setPlaceholderText("e.g. 1")
-        gaussian_layout.addWidget(gaussian_noise_label)
-        gaussian_layout.addWidget(self.gaussian_noise_intensity)
-        layout.addLayout(gaussian_layout)
 
 
         # Apply Button
@@ -422,8 +430,10 @@ class MainWindow(QMainWindow):
         popup.exec_()
 
     def apply_gaussian_noise(self,popup):
+        self.gaussian_mean = int(self.gaussian_mean_edit.text())
+        self.gaussian_st = int(self.gaussian_st_edit.text())
         popup.close()
-        self.noise.apply_gaussian_noise(self.gaussian_mean, self.gaussian_st, self.gaussian_noise_intensity)
+        self.noise.apply_gaussian_noise(self.gaussian_mean, self.gaussian_st)
 
 
 
