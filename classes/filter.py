@@ -160,14 +160,15 @@ class Filters():
         center_row, center_col = rows// 2, cols// 2
         kernel = np.zeros((rows, cols), np.uint8)
         # choosing the min between el height wl width --> thus the region will never exceed the pic
-        limiting_factor = min(center_row, center_col)
-        radius = region_factor * limiting_factor
+        if region_factor != 0:
+            limiting_factor = min(center_row, center_col)
+            radius = region_factor * limiting_factor
 
-        for i in range(rows):
-            for j in range(cols):
-                dis = np.sqrt((i - center_row) ** 2 + (j - center_col) ** 2)
-                if dis <= radius:
-                    kernel[i, j] = 1
+            for i in range(rows):
+                for j in range(cols):
+                    dis = np.sqrt((i - center_row) ** 2 + (j - center_col) ** 2)
+                    if dis <= radius:
+                        kernel[i, j] = 1
 
         return kernel
 

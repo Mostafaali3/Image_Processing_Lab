@@ -154,7 +154,7 @@ class Image_processing_lab(QMainWindow):
     def apply_high_pass_filter(self):
         if self.image is None:
             return
-        region_factor = 0.5
+        region_factor = 0
         high_pass_mat = 1 - self.create_fourier_filter_mask(region_factor)
         img_fourier = np.fft.fft2(self.image)
         image_fourier_shifted = np.fft.fftshift(img_fourier)
