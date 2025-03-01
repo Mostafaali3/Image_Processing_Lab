@@ -198,6 +198,8 @@ class MainWindow(QMainWindow):
         
         self.low_high_filters_slider_2 = self.findChild(QSlider, "pass_filter_2")
         self.low_high_filters_slider_2.setRange(0,1)
+
+
         # fix
         
     def browse_image(self, mode = Mode.REGULAR, viewer_index = 1):
@@ -286,6 +288,7 @@ class MainWindow(QMainWindow):
     def on_threshold_selected(self):
         # never calling it twice
         if self.sender().isChecked():
+            last_img_copy = self.input_image_viewer.current_image.modified_image
             if self.sender() == self.local_threshold:
                 self.thresholder.threshold_type = "LOCAL"
                 self.thresholder.check_global_selection = False
@@ -296,14 +299,17 @@ class MainWindow(QMainWindow):
             img = self.output_image_viewer.current_image.modified_image
             self.thresholder.apply_thresholding(self.thresholder.threshold_type)
             self.controller.update()
+            self.input_image_viewer.current_image.modified_image = last_img_copy
 
 
 
     def update_global_threshold_val(self, value):
+        last_img_copy = self.input_image_viewer.current_image.modified_image
         self.thresholder.global_threshold_val = value
         # self.thresholder.apply_global_thresholding()
         self.thresholder.apply_thresholding("GLOBAL")
         self.controller.update()
+        self.input_image_viewer.current_image.modified_image = last_img_copy
 
     def on_noise_type_change(self):
         noise_type = self.noise_combobox.currentText()
