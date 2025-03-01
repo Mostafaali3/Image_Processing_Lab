@@ -118,7 +118,7 @@ class MainWindow(QMainWindow):
         self.thresholder = Thresholder(self.output_image_viewer)
 
         self.global_threshold_slider = self.findChild(QSlider, "threshold_slider")
-        self.global_threshold_slider.setRange(0, 255)
+        self.global_threshold_slider.setRange(1, 256)
         self.global_threshold_slider.setValue(127)
         # self.global_threshold_slider.valueChanged.connect(self.thresholder.update_global_threshold_val)
         self.global_threshold_slider.valueChanged.connect(self.update_global_threshold_val)
@@ -293,8 +293,11 @@ class MainWindow(QMainWindow):
                 print("global")
                 self.thresholder.threshold_type = "GLOBAL"
                 self.thresholder.check_global_selection = True
-        self.thresholder.apply_thresholding(self.thresholder.threshold_type)
-        self.controller.update()
+            img = self.output_image_viewer.current_image.modified_image
+            self.thresholder.apply_thresholding(self.thresholder.threshold_type)
+            self.controller.update()
+
+
 
     def update_global_threshold_val(self, value):
         self.thresholder.global_threshold_val = value

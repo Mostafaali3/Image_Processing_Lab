@@ -148,7 +148,7 @@ class Filters():
             current_output_viewer_to_process.current_image.modified_image = filtered_img
             # return filtered_img
 
-    def create_fourier_filter_mask(self,region_factor, viewer_number=None): #fix
+    def create_fourier_filter_mask(self,region_factor, viewer_number=None):
         if viewer_number == 1:
             current_output_viewer_to_process = self.filtered_hybrid_image_viewer_1
         elif viewer_number == 2:
@@ -159,15 +159,15 @@ class Filters():
         rows, cols = current_output_viewer_to_process.current_image.image_fourier_components.shape
         center_row, center_col = rows// 2, cols// 2
         kernel = np.zeros((rows, cols), np.uint8)
-        # choosing the min between el height wl width --> thus the region will never exceed the pic
+        #choosing the min between el height wl width --> thus the region will never exceed the pic
         if region_factor != 0:
             limiting_factor = min(center_row, center_col)
-            radius = region_factor * limiting_factor
+            r = region_factor * limiting_factor
 
             for i in range(rows):
                 for j in range(cols):
                     dis = np.sqrt((i - center_row) ** 2 + (j - center_col) ** 2)
-                    if dis <= radius:
+                    if dis < r:
                         kernel[i, j] = 1
 
         return kernel
