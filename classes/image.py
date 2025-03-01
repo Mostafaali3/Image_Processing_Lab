@@ -140,8 +140,8 @@ class Image():
         #     self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
         #
         #
-        if len(self.__original_image.shape) != 2:
-            imported_image_gray_scale = cv2.cvtColor(self.__original_image, cv2.COLOR_BGR2GRAY)
+        if len(self.__modified_image.shape) != 2:
+            imported_image_gray_scale = cv2.cvtColor(self.__modified_image, cv2.COLOR_BGR2GRAY)
             self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
             print(f"modified img shape {self.__modified_image.shape}")
         

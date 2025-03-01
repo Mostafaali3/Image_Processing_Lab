@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 # import cv2
 # from enums.thresholdType import Threshold_type
@@ -12,10 +13,10 @@ class Thresholder():
     def apply_thresholding(self, threshold_type):
         if self.output_image_viewer.current_image is not None:
             if threshold_type == "LOCAL":
-                self.output_image_viewer.current_image.transfer_to_gray_scale()
+                self.restore_original_img()
                 self.apply_local_thresholding()
             elif threshold_type == "GLOBAL" and self.check_global_selection:
-                self.output_image_viewer.current_image.transfer_to_gray_scale()
+                self.restore_original_img()
                 self.apply_global_thresholding()
 
     def apply_global_thresholding(self):
@@ -53,6 +54,12 @@ class Thresholder():
                     thresholded_img[i, j] = 255
 
         self.output_image_viewer.current_image.modified_image= thresholded_img
+
+
+    #temp kda bs or not idk
+    def restore_original_img(self):
+        imported_image_gray_scale = cv2.cvtColor(self.output_image_viewer.current_image.original_image, cv2.COLOR_BGR2GRAY)
+        self.output_image_viewer.current_image.modified_image= np.array(imported_image_gray_scale, dtype=np.uint8)
 
 
 
