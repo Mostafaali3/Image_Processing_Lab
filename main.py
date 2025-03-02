@@ -299,7 +299,6 @@ class MainWindow(QMainWindow):
             img = self.output_image_viewer.current_image.modified_image
             self.thresholder.apply_thresholding(self.thresholder.threshold_type)
             self.controller.update()
-            self.input_image_viewer.current_image.modified_image = last_img_copy
 
 
 
@@ -309,7 +308,6 @@ class MainWindow(QMainWindow):
         # self.thresholder.apply_global_thresholding()
         self.thresholder.apply_thresholding("GLOBAL")
         self.controller.update()
-        self.input_image_viewer.current_image.modified_image = last_img_copy
 
     def on_noise_type_change(self):
         noise_type = self.noise_combobox.currentText()
