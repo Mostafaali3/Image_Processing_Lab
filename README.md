@@ -36,7 +36,7 @@ The image processing lab relies on the following technologies and libraries:
 1. Clone this repository:
    ```bash
    git clone https://github.com/Mostafaali3/image_processing_lab
-   cd image-processing-project
+   cd image_processing_lab
    ```
 2. Install dependencies:
    ```bash
