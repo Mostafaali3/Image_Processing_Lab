@@ -9,7 +9,7 @@ class Viewer(pg.PlotWidget):
         super().__init__()
         self.__channels = []
         self.setLimits(xMin = 0, xMax = 1000)
-        self.setBackground('w')
+        self.setBackground('#edf6f9')
         self.showGrid(x= True, y= True , alpha = 0.25)
         self.current_graph_type = graph_type
         self.x_range = np.arange(256)
