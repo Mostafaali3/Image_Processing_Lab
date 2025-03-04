@@ -187,6 +187,7 @@ class MainWindow(QMainWindow):
         
         self.low_high_filters_slider_1 = self.findChild(QSlider, "pass_filter_1")
         self.low_high_filters_slider_1.setRange(0,1)
+        self.low_high_filters_slider_1.valueChanged.connect(lambda :self.on_filter_slider_value_changed(self.filtering_slider_1.value(), 1))
         
         self.filtering_slider_1 = self.findChild(QSlider, "verticalSlider_3")
         self.filtering_slider_1.setRange(0,10)
@@ -198,6 +199,7 @@ class MainWindow(QMainWindow):
         
         self.low_high_filters_slider_2 = self.findChild(QSlider, "pass_filter_2")
         self.low_high_filters_slider_2.setRange(0,1)
+        self.low_high_filters_slider_2.valueChanged.connect(lambda :self.on_filter_slider_value_changed(self.filtering_slider_2.value(), 2))
 
 
         # fix
