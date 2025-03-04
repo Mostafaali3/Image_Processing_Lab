@@ -135,14 +135,14 @@ class Image():
     #     return self.__original_image_fourier_components
 
     def transfer_to_gray_scale(self):
-        # if self.__modified_image is not None:
-        #     imported_image_gray_scale = np.dot(self.__modified_image[...,:3], [0.2989, 0.570, 0.1140])
-        #     self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
-        #
-        #
-        if len(self.__modified_image.shape) != 2:
-            imported_image_gray_scale = cv2.cvtColor(self.__modified_image, cv2.COLOR_BGR2GRAY)
+        if  len(self.__modified_image.shape) != 2:
+            imported_image_gray_scale = np.dot(self.__modified_image[...,:3], [0.2989, 0.570, 0.1140])
             self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
+        #
+        #
+        # if len(self.__modified_image.shape) != 2:
+        #     imported_image_gray_scale = cv2.cvtColor(self.__modified_image, cv2.COLOR_BGR2GRAY)
+        #     self.__modified_image = np.array(imported_image_gray_scale, dtype=np.uint8)
             print(f"modified img shape {self.__modified_image.shape}")
         
     def reset(self):
