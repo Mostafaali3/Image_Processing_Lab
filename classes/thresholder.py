@@ -20,7 +20,6 @@ class Thresholder():
                 self.apply_global_thresholding()
 
     def apply_global_thresholding(self):
-        print("here in global func")
         height, width = self.output_image_viewer.current_image.modified_image.shape
         thresholded_img = np.zeros((height, width), dtype=np.uint8)
 
@@ -36,7 +35,6 @@ class Thresholder():
 
 
     def apply_local_thresholding(self):
-        print("here in local func")
         block_size =11
         c= 2
         height, width = self.output_image_viewer.current_image.modified_image.shape
@@ -56,7 +54,6 @@ class Thresholder():
         self.output_image_viewer.current_image.modified_image= thresholded_img
 
 
-    #temp kda bs or not idk
     def restore_original_img(self):
         imported_image_gray_scale = cv2.cvtColor(self.output_image_viewer.current_image.original_image, cv2.COLOR_BGR2GRAY)
         self.output_image_viewer.current_image.modified_image= np.array(imported_image_gray_scale, dtype=np.uint8)

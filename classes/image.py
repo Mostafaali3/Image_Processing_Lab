@@ -121,7 +121,7 @@ class Image():
 
         self.__modified_image = self.__modified_image.astype(np.float32)
         # Normalization Formula
-        self.__modified_image = 255 * (self.__modified_image - min_pixel) / (max_pixel - min_pixel)
+        self.__modified_image = (255* (self.__modified_image - min_pixel) / (max_pixel - min_pixel))
         # Convert Back to uint8
         self.__modified_image = np.clip(self.__modified_image, 0, 255).astype(np.uint8)
         # for row in range(self.__modified_image.shape[0]):

@@ -130,7 +130,7 @@ class MainWindow(QMainWindow):
         self.filters_comboBox.addItem("Gaussiann Filter")
         self.filter = Filters(self.output_image_viewer, self.filtered_hybrid_image_viewer_1, self.filtered_hybrid_image_viewer_2)
         self.filters_comboBox.model().item(0).setFlags(Qt.NoItemFlags)
-        self.filters_comboBox.currentIndexChanged.connect(self.on_filter_type_change)
+        self.filters_comboBox.currentIndexChanged.connect(self.open_kernel_size_window)
 
         self.noise_combobox = self.findChild(QComboBox, "noise_combobox")
         self.noise_combobox.addItem("Select noise type")
@@ -320,7 +320,32 @@ class MainWindow(QMainWindow):
         elif noise_type == "Gaussian noise":
             self.open_gaussian_pop_up_window()
         self.controller.update()
+        
+    def open_kernel_size_window(self, filter_type):
+        popup = QDialog()
+        popup.setWindowTitle("kernel size")
+        popup.setGeometry(700, 400, 300, 150)
 
+        layout = QVBoxLayout()
+
+        # Title Label
+        label = QLabel("Enter kernel size")
+        label.setStyleSheet("font-weight:500")
+        layout.addWidget(label)
+        salt_layout = QHBoxLayout()
+        salt_label = QLabel("kernel size:")
+        self.salt_edit = QLineEdit()
+        self.salt_edit.setPlaceholderText("e.g. 5")
+        salt_layout.addWidget(salt_label)
+        salt_layout.addWidget(self.salt_edit)
+        layout.addLayout(salt_layout)
+        apply_button = QPushButton("Apply")
+        apply_button.clicked.connect(lambda : self.on_filter_type_change(popup))
+        layout.addWidget(apply_button)
+
+        popup.setLayout(layout)
+        popup.exec_()
+        
     def open_salt_and_pepper_pop_up_window(self):
         popup = QDialog()
         popup.setWindowTitle("Salt & Pepper Noise Parameters")
@@ -446,9 +471,11 @@ class MainWindow(QMainWindow):
 
 
 
-    def on_filter_type_change(self):
+    def on_filter_type_change(self, popup:QDialog):
         filter_type = self.filters_comboBox.currentText()
-        self.filter.apply_filters(filter_type)
+        size = int(self.salt_edit.text())
+        popup.close()
+        self.filter.apply_filters(filter_type, size)
         self.controller.update()
 
     def on_detector_type_change(self):

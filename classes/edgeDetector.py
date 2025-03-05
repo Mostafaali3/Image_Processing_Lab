@@ -64,7 +64,7 @@ class Edge_detector():
 
     def detecting_process(self, gradiant_x, gradiant_y, detector_type):
         image_height, image_width = self.output_image_viewer.current_image.modified_image.shape
-        # default and most common is 3 for now
+        # default and most common is 3
         Gx, Gy = gradiant_x, gradiant_y
 
         # gradiants for x and y
@@ -73,7 +73,7 @@ class Edge_detector():
 
         # kernel_size 2 or 3 --> eventually pad_size is 1
         pad_size = 1
-        # gpt shit so 7arfyan no diff --> instead of opencv
+        #apply padding to avoid black borders 
         padded_image = np.pad(self.output_image_viewer.current_image.modified_image, ((pad_size, pad_size), (pad_size, pad_size)), mode='reflect')
 
         if detector_type == "Roberts detector":
@@ -121,7 +121,6 @@ class Edge_detector():
     #     G_y = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.float32)
     #
     #     pad_size = kernel_size // 2
-    #     # gpt shit so 7arfyan no diff --> instead of opencv
     #     padded_image = np.pad(self.output_image_viewer.current_image.modified_image,((pad_size, pad_size), (pad_size, pad_size)), mode='reflect')
     #
     #     for i in range(pad_size, image_height + pad_size):

@@ -10,23 +10,24 @@ class Filters():
         self.filtered_hybrid_image_viewer_2 = filtered_hybrid_image_viewer_2
 
 
-    def apply_filters(self, filter_type):
+    def apply_filters(self, filter_type, kernel_size):
         if self.output_image_viewer.current_image is not None:
             # self.output_image_viewer.current_image.transfer_to_gray_scale()
             if len(self.output_image_viewer.current_image.modified_image.shape) == 3:
                 self.output_image_viewer.current_image.transfer_to_gray_scale()
             print(f"filter type {filter_type}")
             if filter_type == "Average Filter":
-                self.apply_average_filter()
+                self.apply_average_filter(kernel_size)
             elif filter_type == "Median Filter":
-                self.apply_median_filter()
+                self.apply_median_filter(kernel_size)
             elif filter_type == "Gaussiann Filter":
-                self.apply_gaussian_filter()
+                kernel_size+= 6
+                self.apply_gaussian_filter(kernel_size)
 
 
-    def apply_average_filter(self):
+    def apply_average_filter(self, kernel_size = 5):
         image_height, image_width = self.output_image_viewer.current_image.modified_image.shape
-        kernel_size = 5  # odd num input passed mn el func
+        kernel_size = kernel_size  # odd num input passed mn el func
         filtered_img = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.float32)
 
         # creating the kernel
@@ -52,10 +53,10 @@ class Filters():
 
 
 
-    def apply_median_filter(self):
+    def apply_median_filter(self, kernel_size = 5):
 
         image_height, image_width = self.output_image_viewer.current_image.modified_image.shape
-        kernel_size = 5  # odd num input passed mn el func
+        kernel_size = kernel_size  # odd num input passed mn el func
         filtered_img = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.uint8)
 
         # creating padding (fake pixels to handle edges)
@@ -65,7 +66,7 @@ class Filters():
 
         for i in range(pad_size, image_height + pad_size):
             for j in range(pad_size, image_width + pad_size):
-                # instead of looping 3la kol pixel (gonna take forever) we apply the process mat by mat
+                # i we apply the process mat by mat
                 region = padded_image[i - pad_size:i + pad_size + 1, j - pad_size:j + pad_size + 1]
                 filtered_img[i - pad_size, j - pad_size] = np.median(
                     region)  # obtaining median of the selected region
@@ -88,10 +89,10 @@ class Filters():
         gaussian_kernel = np.array(gaussian_kernel) / total_sum
         return gaussian_kernel
 
-    def apply_gaussian_filter(self):
+    def apply_gaussian_filter(self , kernel_size=5):
 
         image_height, image_width = self.output_image_viewer.current_image.modified_image.shape
-        kernel_size = 13  # odd num input passed mn el func
+        kernel_size = kernel_size  # odd num input passed mn el func
         filtered_img = np.zeros_like(self.output_image_viewer.current_image.modified_image, dtype=np.float32)
 
         # creating the Gaussian kernel
@@ -104,7 +105,7 @@ class Filters():
 
         for i in range(pad_size, image_height + pad_size):
             for j in range(pad_size, image_width + pad_size):
-                # instead of looping 3la kol pixel (gonna take forever) we apply the process mat by mat
+                # we apply the process mat by mat
                 region = padded_image[i - pad_size:i + pad_size + 1, j - pad_size:j + pad_size + 1]
                 # apply the Gaussian kernel
                 filtered_img[i - pad_size, j - pad_size] = np.sum(region * kernel)
