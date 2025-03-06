@@ -1625,8 +1625,14 @@ border-radius: 5px;</string>
                   <widget class="QWidget" name="widget_21" native="true">
                    <property name="minimumSize">
                     <size>
-                     <width>300</width>
+                     <width>350</width>
                      <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>350</width>
+                     <height>16777215</height>
                     </size>
                    </property>
                    <property name="styleSheet">
@@ -1775,20 +1781,6 @@ border:none;</string>
                      </property>
                      <property name="text">
                       <string> L</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="value_label_1">
-                     <property name="styleSheet">
-                      <string notr="true">
-color:#edf6f9;
-font-size: 16px;
-font-weight:500;
-border:none;</string>
-                     </property>
-                     <property name="text">
-                      <string> 0</string>
                      </property>
                     </widget>
                    </item>
@@ -1965,20 +1957,6 @@ border:none;</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="value_label_2">
-                     <property name="styleSheet">
-                      <string notr="true">
-color:#edf6f9;
-font-size: 16px;
-font-weight:500;
-border:none;</string>
-                     </property>
-                     <property name="text">
-                      <string> 0</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
                     <widget class="QSlider" name="value_slider_2">
                      <property name="styleSheet">
                       <string notr="true">QSlider {
@@ -2036,8 +2014,14 @@ QSlider::handle:vertical:pressed {
                   <widget class="QWidget" name="widget_22" native="true">
                    <property name="minimumSize">
                     <size>
-                     <width>300</width>
+                     <width>350</width>
                      <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>350</width>
+                     <height>16777215</height>
                     </size>
                    </property>
                    <property name="styleSheet">
@@ -2096,6 +2080,47 @@ font-weight:500;</string>
               </item>
              </layout>
             </item>
+            <item row="0" column="1" colspan="2">
+             <layout class="QHBoxLayout" name="horizontalLayout_13">
+              <item>
+               <widget class="QPushButton" name="pushButton_5">
+                <property name="styleSheet">
+                 <string notr="true">background-color:#006d77;
+border-radius: 5px;
+color:#006d77;
+font-size: 16px;
+font-weight:500;</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>icons_setup/icons/arrow.png</normaloff>icons_setup/icons/arrow.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>30</width>
+                  <height>30</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
             <item row="1" column="2">
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
@@ -2140,47 +2165,6 @@ border-radius: 5px;</string>
                  </widget>
                 </item>
                </layout>
-              </item>
-             </layout>
-            </item>
-            <item row="0" column="1" colspan="2">
-             <layout class="QHBoxLayout" name="horizontalLayout_13">
-              <item>
-               <widget class="QPushButton" name="pushButton_5">
-                <property name="styleSheet">
-                 <string notr="true">background-color:#006d77;
-border-radius: 5px;
-color:#006d77;
-font-size: 16px;
-font-weight:500;</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>icons_setup/icons/arrow.png</normaloff>icons_setup/icons/arrow.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_3">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
               </item>
              </layout>
             </item>
